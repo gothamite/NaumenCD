@@ -16,5 +16,4 @@ public interface AppComponent {
     Context getContext();
 
     void inject(HomePresenter homePresenter);
-
 }

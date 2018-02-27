@@ -11,7 +11,7 @@ import ru.naumen.naumencd.app.ComputerDatabaseApp;
 import ru.naumen.naumencd.models.Computers;
 import ru.naumen.naumencd.presentation.views.home.HomeView;
 import rx.Observable;
-import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -25,24 +25,12 @@ public class HomePresenter extends MvpPresenter<HomeView> {
         ComputerDatabaseApp.getAppComponent().inject(this);
     }
 
-    public void loadData(int page) {
-        final Observable<Computers> observable = mCdService.getComputers(page);
-        observable.subscribeOn(Schedulers.io())
+    public void loadComputers(int page) {
+        Observable<Computers> observable = mCdService.getComputers(page);
+
+        Subscription subscription = observable
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Computers>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(Computers cityListResponse) {
-
-                    }
-                });
+                .subscribe(computers -> getViewState().setComputers(computers));
     }
 }

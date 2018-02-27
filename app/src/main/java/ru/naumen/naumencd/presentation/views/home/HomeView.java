@@ -14,5 +14,5 @@ public interface HomeView extends MvpView {
 
     void onFailure(String appErrorMessage);
 
-    void getCityListSuccess(Computers computers);
+    void setComputers(Computers computers);
 }

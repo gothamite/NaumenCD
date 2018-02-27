@@ -14,13 +14,13 @@ import ru.naumen.naumencd.app.ComputerDatabaseApi;
 public class NetworkModule {
     @Provides
     @Singleton
-    public ComputerDatabaseService provideGithubService(ComputerDatabaseApi authApi) {
-        return new ComputerDatabaseService(authApi);
+    public ComputerDatabaseService provideGithubService(ComputerDatabaseApi computerDatabaseApi) {
+        return new ComputerDatabaseService(computerDatabaseApi);
     }
 
     @Provides
     @Singleton
-    public ComputerDatabaseApi provideAuthApi(Retrofit retrofit) {
+    public ComputerDatabaseApi provideApi(Retrofit retrofit) {
         return retrofit.create(ComputerDatabaseApi.class);
     }
 }

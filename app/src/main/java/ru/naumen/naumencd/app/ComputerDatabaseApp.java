@@ -5,22 +5,26 @@ import android.app.Application;
 import ru.naumen.naumencd.di.AppComponent;
 import ru.naumen.naumencd.di.DaggerAppComponent;
 import ru.naumen.naumencd.di.module.ContextModule;
+import ru.naumen.naumencd.di.module.NetworkModule;
+import ru.naumen.naumencd.di.module.RetrofitModule;
 
 public class ComputerDatabaseApp extends Application {
 
-    private static AppComponent sAppComponent;
+    private static AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        sAppComponent = DaggerAppComponent.builder()
+        appComponent = DaggerAppComponent.builder()
                 .contextModule(new ContextModule(this))
+                .networkModule(new NetworkModule())
+                .retrofitModule(new RetrofitModule())
                 .build();
 
     }
 
     public static AppComponent getAppComponent() {
-        return sAppComponent;
+        return appComponent;
     }
 }

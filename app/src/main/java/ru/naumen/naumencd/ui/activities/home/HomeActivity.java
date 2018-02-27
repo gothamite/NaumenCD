@@ -10,6 +10,8 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.naumen.naumencd.R;
@@ -21,8 +23,7 @@ import ru.naumen.naumencd.ui.adapters.home.ComputersListAdapter;
 public class HomeActivity extends MvpAppCompatActivity implements HomeView {
 
     public static final String TAG = "HomeActivity";
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private ComputersListAdapter mAdapter;
 
     @InjectPresenter
     HomePresenter mHomePresenter;
@@ -45,14 +46,12 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        mHomePresenter.loadData(1);
-        mRecyclerView.setHasFixedSize(true);
+        mHomePresenter.loadComputers(1);
 
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-       // mAdapter = new ComputersListAdapter(myDataset);
+        mAdapter = new ComputersListAdapter(mHomePresenter.loadComputers(1));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -71,7 +70,9 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView {
     }
 
     @Override
-    public void getCityListSuccess(Computers computers) {
+    public void setComputers(Computers computers) {
+
+        mAdapter = new ComputersListAdapter()
 
     }
 }
