@@ -3,6 +3,7 @@ package ru.naumen.naumencd.presentation.presenters.home;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import javax.inject.Inject;
 
@@ -14,12 +15,15 @@ import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 @InjectViewState
 public class HomePresenter extends MvpPresenter<HomeView> {
 
     @Inject
     ComputerDatabaseService mCdService;
+
+   // private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
     public HomePresenter() {
         ComputerDatabaseApp.getAppComponent().inject(this);
@@ -32,5 +36,6 @@ public class HomePresenter extends MvpPresenter<HomeView> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(computers -> getViewState().setComputers(computers));
+        //compositeSubscription.add(subscription);
     }
 }

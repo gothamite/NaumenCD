@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.naumen.naumencd.R;
 import ru.naumen.naumencd.models.Computers;
+import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.home.HomePresenter;
 import ru.naumen.naumencd.presentation.views.home.HomeView;
 import ru.naumen.naumencd.ui.adapters.home.ComputersListAdapter;
@@ -34,6 +35,8 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView {
     @BindView(R.id.progress)
     ProgressBar progressBarLoading;
 
+    List<Item> comps;
+
     public static Intent getIntent(final Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
         return intent;
@@ -47,11 +50,6 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView {
         ButterKnife.bind(this);
 
         mHomePresenter.loadComputers(1);
-
-        mAdapter = new ComputersListAdapter(mHomePresenter.loadComputers(1));
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mAdapter);
-
     }
 
     @Override
@@ -72,7 +70,9 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView {
     @Override
     public void setComputers(Computers computers) {
 
-        mAdapter = new ComputersListAdapter()
+        mAdapter = new ComputersListAdapter(comps);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 }
