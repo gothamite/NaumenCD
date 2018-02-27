@@ -20,6 +20,7 @@ import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.home.HomePresenter;
 import ru.naumen.naumencd.presentation.views.home.HomeView;
 import ru.naumen.naumencd.ui.adapters.home.ComputersListAdapter;
+import timber.log.Timber;
 
 public class HomeActivity extends MvpAppCompatActivity implements HomeView {
 
@@ -49,6 +50,7 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
+        Timber.d("test");
         mHomePresenter.loadComputers(1);
     }
 

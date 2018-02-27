@@ -10,8 +10,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import ru.naumen.naumencd.R;
 import ru.naumen.naumencd.models.Item;
+import timber.log.Timber;
 
 public class ComputersListAdapter  extends RecyclerView.Adapter<ComputersListAdapter.ViewHolder> {
 
@@ -44,13 +47,16 @@ public class ComputersListAdapter  extends RecyclerView.Adapter<ComputersListAda
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        CardView computer;
+
+        @BindView(R.id.name)
         TextView name;
+
+        @BindView(R.id.computer_card)
+        CardView computer;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            computer = itemView.findViewById(R.id.computer_card);
-            name = itemView.findViewById(R.id.name); //TODO через баттернайф?
+            ButterKnife.bind(this, itemView);
         }
     }
 }
