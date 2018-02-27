@@ -69,7 +69,7 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView {
 
     @Override
     public void setComputers(Computers computers) {
-
+        comps = computers.getItems();
         mAdapter = new ComputersListAdapter(comps);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
