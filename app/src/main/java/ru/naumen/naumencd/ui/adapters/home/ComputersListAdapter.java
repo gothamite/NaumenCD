@@ -31,14 +31,17 @@ public class ComputersListAdapter  extends RecyclerView.Adapter<ComputersListAda
     @Override
     public ComputersListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_card, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ComputersListAdapter.ViewHolder holder, int position) {
+        //TODO отображение id, name, company для главной активити
         Item comp = computers.get(position);
         holder.name.setText(comp.getName());
+//        holder.company.setText(comp.getCompany().getName());
+      //  holder.description.setText(comp.getDescription());
     }
 
     @Override
@@ -48,8 +51,15 @@ public class ComputersListAdapter  extends RecyclerView.Adapter<ComputersListAda
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        //TODO Картинку через Пикасо тут обрабатывать или в кард активити?
         @BindView(R.id.name)
         TextView name;
+
+        @BindView(R.id.company)
+        TextView company;
+
+        @BindView(R.id.description)
+        TextView description;
 
         @BindView(R.id.computer_card)
         CardView computer;

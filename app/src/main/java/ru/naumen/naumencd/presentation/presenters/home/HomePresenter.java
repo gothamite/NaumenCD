@@ -19,9 +19,7 @@ import rx.schedulers.Schedulers;
 public class HomePresenter extends MvpPresenter<HomeView> {
 
     @Inject
-    ComputerDatabaseService mCdService;
-
-   // private CompositeSubscription compositeSubscription = new CompositeSubscription();
+    ComputerDatabaseService mCdService; //TODO переименовать всю  ересь аля mSomething
 
     public HomePresenter() {
         ComputerDatabaseApp.getAppComponent().inject(this);
@@ -33,7 +31,6 @@ public class HomePresenter extends MvpPresenter<HomeView> {
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(computers -> getViewState().setComputers(computers));
-        //compositeSubscription.add(subscription);
+                .subscribe(computers -> getViewState().setComputers(computers)); //TODO добавить unsubscribe и вызывать его в onDestroyView
     }
 }

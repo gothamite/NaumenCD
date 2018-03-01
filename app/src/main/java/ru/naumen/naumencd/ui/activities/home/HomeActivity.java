@@ -50,10 +50,10 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        Timber.d("test");
-        mHomePresenter.loadComputers(1);
+        Timber.d("test"); //TODO Настроить Timber?
+        mHomePresenter.loadComputers(1); // TODO если приложение открывается из свернутого вида, то возвращать на текущую страницу
     }
-
+//TODO для ProgressBar настроить
     @Override
     public void showWait() {
 

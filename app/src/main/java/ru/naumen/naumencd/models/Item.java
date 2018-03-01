@@ -9,18 +9,32 @@ public class Item {
     @SerializedName("id")
     @Expose
     private Integer id;
+
     @SerializedName("name")
     @Expose
     private String name;
+
+    @SerializedName("introduced")
+    @Expose
+    private String introduced;
+
+    @SerializedName("discounted")
+    @Expose
+    private String discounted;
+
     @SerializedName("imageUrl")
     @Expose
     private String imageUrl;
+
     @SerializedName("company")
     @Expose
     private Company company;
+
     @SerializedName("description")
     @Expose
     private String description;
+
+    //TODO Пересоздать POJO на основе ответа: add introduced and etc.
 
     public Integer getId() {
         return id;
@@ -36,6 +50,22 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getIntroduced() {
+        return introduced;
+    }
+
+    public void setIntroduced(String introduced) {
+        this.introduced = introduced;
+    }
+
+    public String getDiscounted() {
+        return discounted;
+    }
+
+    public void setDiscounted(String discounted) {
+        this.discounted = discounted;
     }
 
     public String getImageUrl() {
@@ -62,6 +92,7 @@ public class Item {
         this.description = description;
     }
 
+    //TODO Нужен ли?
     @Override
     public String toString() {
         return "Item{" +

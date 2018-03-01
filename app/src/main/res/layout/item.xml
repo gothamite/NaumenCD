@@ -1,0 +1,48 @@
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/computer_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:visibility="visible"
+    app:cardCornerRadius="4dp"
+    tools:ignore="ContentDescription">
+
+    <LinearLayout
+        android:id="@+id/item_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="gdhsagdj"/>
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/company"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="gdhsagdj"/>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="gdhsagdj"/>
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

@@ -11,12 +11,15 @@ public class Computers {
     @SerializedName("items")
     @Expose
     private List<Item> items = null;
+
     @SerializedName("page")
     @Expose
     private Integer page;
+
     @SerializedName("offset")
     @Expose
     private Integer offset;
+
     @SerializedName("total")
     @Expose
     private Integer total;

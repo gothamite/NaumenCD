@@ -8,5 +8,5 @@ import com.arellomobile.mvp.MvpPresenter;
 
 @InjectViewState
 public class CardPresenter extends MvpPresenter<CardView> {
-
+//TODO loadComputer() and loadSimilarComputers()?
 }
