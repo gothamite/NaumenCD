@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Naumen CD</string>
+    <string name="computer_name">Computer name</string>
+    <string name="company">Company</string>
+    <string name="introduced">Introduced</string>
+    <string name="discontinued">Discontinued</string>
+    <string name="previous">PREVIOUS</string>
+    <string name="next">NEXT</string>
 </resources>

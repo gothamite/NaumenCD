@@ -27,13 +27,16 @@ public class HomePresenter extends MvpPresenter<HomeView> {
     }
 
     public void loadComputers(int page) {
-        Timber.d("LoadComps");
+        getViewState().showWait();
+        Timber.d("LoadComps" + page);
+
         Observable<Computers> observable = mCdService.getComputers(page);
 
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(computers -> getViewState().setComputers(computers)); //TODO добавить unsubscribe и вызывать его в onDestroyView
+                .subscribe(computers -> getViewState().setComputers(computers));//TODO добавить unsubscribe и вызывать его в onDestroyView
+        getViewState().removeWait();
      // TODO  compositeSubscription.add(subscription); ?
     }
 }

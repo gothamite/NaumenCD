@@ -34,8 +34,6 @@ public class Item {
     @Expose
     private String description;
 
-    //TODO Пересоздать POJO на основе ответа: add introduced and etc.
-
     public Integer getId() {
         return id;
     }
@@ -92,15 +90,4 @@ public class Item {
         this.description = description;
     }
 
-    //TODO Нужен ли?
-    @Override
-    public String toString() {
-        return "Item{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", company=" + company +
-                ", description='" + description + '\'' +
-                '}';
-    }
 }

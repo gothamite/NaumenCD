@@ -12,16 +12,15 @@ import ru.naumen.naumencd.presentation.presenters.card.CardPresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
 
 public class CardActivity extends MvpAppCompatActivity implements CardView {
+
     public static final String TAG = "CardActivity";
     @InjectPresenter
     CardPresenter mCardPresenter;
 
     public static Intent getIntent(final Context context) {
         Intent intent = new Intent(context, CardActivity.class);
-
         return intent;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
