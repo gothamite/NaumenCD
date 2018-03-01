@@ -7,6 +7,7 @@ import ru.naumen.naumencd.di.DaggerAppComponent;
 import ru.naumen.naumencd.di.module.ContextModule;
 import ru.naumen.naumencd.di.module.NetworkModule;
 import ru.naumen.naumencd.di.module.RetrofitModule;
+import timber.log.Timber;
 
 public class ComputerDatabaseApp extends Application {
 
@@ -15,6 +16,8 @@ public class ComputerDatabaseApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Timber.plant(new Timber.DebugTree());
 
         appComponent = DaggerAppComponent.builder()
                 .contextModule(new ContextModule(this))

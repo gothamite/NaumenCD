@@ -14,6 +14,7 @@ import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 @InjectViewState
 public class HomePresenter extends MvpPresenter<HomeView> {
@@ -26,11 +27,13 @@ public class HomePresenter extends MvpPresenter<HomeView> {
     }
 
     public void loadComputers(int page) {
+        Timber.d("LoadComps");
         Observable<Computers> observable = mCdService.getComputers(page);
 
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(computers -> getViewState().setComputers(computers)); //TODO добавить unsubscribe и вызывать его в onDestroyView
+     // TODO  compositeSubscription.add(subscription); ?
     }
 }
