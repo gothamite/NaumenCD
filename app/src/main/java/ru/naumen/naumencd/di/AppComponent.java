@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient;
 import ru.naumen.naumencd.di.module.ContextModule;
 import ru.naumen.naumencd.di.module.NetworkModule;
 import ru.naumen.naumencd.di.module.RetrofitModule;
+import ru.naumen.naumencd.presentation.presenters.card.CardPresenter;
 import ru.naumen.naumencd.presentation.presenters.home.HomePresenter;
 
 @Singleton
@@ -18,4 +19,6 @@ public interface AppComponent {
     Context getContext();
 
     void inject(HomePresenter homePresenter);
+
+    void inject(CardPresenter cardPresenter);
 }

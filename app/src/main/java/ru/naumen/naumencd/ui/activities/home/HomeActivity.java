@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -22,14 +23,18 @@ import ru.naumen.naumencd.models.Computers;
 import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.home.HomePresenter;
 import ru.naumen.naumencd.presentation.views.home.HomeView;
+import ru.naumen.naumencd.ui.activities.card.CardActivity;
 import ru.naumen.naumencd.ui.adapters.home.ComputersListAdapter;
-import timber.log.Timber;
+import ru.naumen.naumencd.utils.SharedPrefs;
 
 public class HomeActivity extends MvpAppCompatActivity implements HomeView {
 
     public static final String TAG = "HomeActivity";
+    public static final String SAVE_COMPUTERS = "SAVE_COMPUTERS";
     private ComputersListAdapter mAdapter;
+    private SharedPrefs sharedPrefs;
     private int pageNumber;
+    private Intent intent;
 
     @InjectPresenter
     HomePresenter mHomePresenter;
@@ -56,8 +61,23 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-        mHomePresenter.loadComputers(0); // TODO если приложение открывается из свернутого вида, то возвращать на текущую страницу
+
+        mAdapter = new ComputersListAdapter();
+        mAdapter.setListener((pos) -> {
+            prepareIntent(pos);
+            startActivity(intent);
+        });
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        mRecyclerView.setAdapter(mAdapter);
+        mHomePresenter.loadComputers(0);
+
+        sharedPrefs = new SharedPrefs(this);
+
+        mHomePresenter.loadComputers(0); // TODO если приложение открывается заново при нехватке памяти то берем из prefs
     }
+
 
     //TODO для ProgressBar настроить
     @Override
@@ -78,24 +98,41 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView {
     @Override
     public void setComputers(Computers computers) {
         comps = computers.getItems();
-        mAdapter = new ComputersListAdapter(comps); //TODO каждый раз добавляется новый адаптер
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        mRecyclerView.setAdapter(mAdapter);
-
+        mAdapter.setComputersList(comps);
         pageNumber = computers.getPage();
-        pages.setText("Page " + (pageNumber + 1) + " of 58");//TODO посчитать количество страниц?
+        pages.setText("Page " + (pageNumber + 1) + " of " + calculatePages(computers.getTotal()));
+    }
+
+    private String calculatePages(Integer total) {
+
+        int pages = total/10;
+
+        if (total % 10 != 0) {
+            return String.valueOf(pages + 1);
+        } else {
+            return String.valueOf(pages);
+        }
     }
 
     public void onPreviousClick(View view) {
-        if (pageNumber != 0){
-            mHomePresenter.loadComputers(pageNumber-1);
+        if (pageNumber != 0) {
+            mHomePresenter.loadComputers(pageNumber - 1);
         }
     }
 
     public void onNextClick(View view) {
-       // if (pageNumber != 57){
-            mHomePresenter.loadComputers(pageNumber+1);
-       // }
+        if (pageNumber != 57) {
+            mHomePresenter.loadComputers(pageNumber + 1);
+        }
+    }
+
+    private void prepareIntent(int position) {
+        intent = new Intent(this, CardActivity.class);
+        intent.putExtra("SELECTED_COMPUTER_ID", comps.get(position).getId());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

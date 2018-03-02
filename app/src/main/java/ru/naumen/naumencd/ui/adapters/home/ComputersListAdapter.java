@@ -8,56 +8,82 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ru.naumen.naumencd.R;
 import ru.naumen.naumencd.models.Item;
-import timber.log.Timber;
 
 public class ComputersListAdapter extends RecyclerView.Adapter<ComputersListAdapter.ViewHolder> {
 
-    private List<Item> computers;
+    private List<Item> computers = Collections.emptyList();
+    private CardListener cardListener;
 
-    public ComputersListAdapter(List<Item> computersList) {
-        computers = computersList;
+    public ComputersListAdapter() {
     }
 
-    public void addComputersList(List<Item> itemList) {
-        computers.addAll(itemList);
+    public interface CardListener {
+        void onCardClick(int pos);
+    }
+
+    public void setListener(CardListener listener) {
+        this.cardListener = listener;
+    }
+
+    public void setComputersList(List<Item> computersList) {
+        computers = computersList;
         notifyDataSetChanged();
     }
 
     @Override
     public ComputersListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
+        CardView v = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ComputersListAdapter.ViewHolder holder, int position) {
         Item comp = computers.get(position);
+
         if (comp.getName() != null) {
             holder.name.setText(comp.getName());
             holder.name.setVisibility(View.VISIBLE);
             holder.nameDis.setVisibility(View.VISIBLE);
+        } else {
+            holder.name.setVisibility(View.GONE);
+            holder.nameDis.setVisibility(View.GONE);
         }
+
         if (comp.getIntroduced() != null) {
             holder.introduced.setText(comp.getName());
             holder.introduced.setVisibility(View.VISIBLE);
             holder.introducedDis.setVisibility(View.VISIBLE);
+        } else {
+            holder.introduced.setVisibility(View.GONE);
+            holder.introducedDis.setVisibility(View.GONE);
         }
+
         if (comp.getDiscounted() != null) {
             holder.discontinued.setText(comp.getName());
             holder.discontinued.setVisibility(View.VISIBLE);
             holder.discontinuedDis.setVisibility(View.VISIBLE);
+        } else {
+            holder.discontinued.setVisibility(View.GONE);
+            holder.discontinuedDis.setVisibility(View.GONE);
         }
+
         if (comp.getCompany() != null) {
             holder.company.setText(comp.getName());
             holder.company.setVisibility(View.VISIBLE);
             holder.companyDis.setVisibility(View.VISIBLE);
+        } else {
+            holder.company.setVisibility(View.GONE);
+            holder.companyDis.setVisibility(View.GONE);
         }
+
     }
 
     @Override
@@ -67,7 +93,9 @@ public class ComputersListAdapter extends RecyclerView.Adapter<ComputersListAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        //TODO Картинку через Пикасо тут обрабатывать или в кард активити?
+        @BindView(R.id.computer_card)
+        CardView cardView;
+
         @BindView(R.id.name)
         TextView name;
 
@@ -92,8 +120,14 @@ public class ComputersListAdapter extends RecyclerView.Adapter<ComputersListAdap
         @BindView(R.id.company_dis)
         TextView companyDis;
 
-        public ViewHolder(View itemView) {
+        @OnClick(R.id.computer_card)
+        void Click() {
+            cardListener.onCardClick(getAdapterPosition());
+        } //TODO не работает, но работает через RelativeLayout
+
+        public ViewHolder(CardView itemView) {
             super(itemView);
+            cardView = itemView;
             ButterKnife.bind(this, itemView);
         }
     }

@@ -1,5 +1,5 @@
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/computer_card"
     android:layout_width="match_parent"
@@ -12,14 +12,15 @@
     <RelativeLayout
         android:id="@+id/item_detail"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:orientation="vertical">
+        android:paddingTop="16dp">
+
         <TextView
             android:id="@+id/name"
             android:layout_width="match_parent"
@@ -34,16 +35,16 @@
             android:id="@+id/name_dis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/computer_name"
             android:layout_below="@id/name"
+            android:text="@string/computer_name"
             android:visibility="gone"/>
 
         <TextView
             android:id="@+id/company"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/title"
             android:layout_below="@id/name_dis"
+            android:textColor="@color/title"
             android:textSize="16sp"
             android:textStyle="bold"
             android:visibility="gone"/>
@@ -52,8 +53,8 @@
             android:id="@+id/company_dis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/company"
             android:layout_below="@id/company"
+            android:text="@string/company"
             android:visibility="gone"/>
 
         <TextView
@@ -70,8 +71,8 @@
             android:id="@+id/introduced_dis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/introduced"
             android:layout_below="@id/introduced"
+            android:text="@string/introduced"
             android:visibility="gone"/>
 
         <TextView
@@ -88,10 +89,10 @@
             android:id="@+id/discontinued_dis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/discontinued"
             android:layout_below="@id/discontinued"
+            android:text="@string/discontinued"
             android:visibility="gone"/>
 
     </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
+</android.support.v7.widget.CardView>

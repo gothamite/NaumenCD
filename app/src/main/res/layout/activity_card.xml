@@ -1,10 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                tools:context=".ui.activities.home.HomeActivity">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.home.HomeActivity">
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/title"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/name_dis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/computer_name"
+        android:layout_below="@id/name"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/company"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/title"
+        android:layout_below="@id/name_dis"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/company_dis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/company"
+        android:layout_below="@id/company"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/introduced"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/company_dis"
+        android:textColor="@color/title"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/introduced_dis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/introduced"
+        android:layout_below="@id/introduced"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/discontinued"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/introduced_dis"
+        android:textColor="@color/title"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/discontinued_dis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/discontinued"
+        android:layout_below="@id/discontinued"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ListView
+        android:id="@+id/computers_similar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
 
     <ProgressBar
         android:id="@+id/progress"
