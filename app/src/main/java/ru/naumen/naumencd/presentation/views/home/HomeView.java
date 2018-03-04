@@ -12,8 +12,6 @@ public interface HomeView extends MvpView {
 
     void removeWait();
 
-    void onFailure(String appErrorMessage);
-
     void setComputers(Computers computers);
 
 }

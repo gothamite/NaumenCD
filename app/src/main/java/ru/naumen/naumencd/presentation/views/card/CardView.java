@@ -1,5 +1,7 @@
 package ru.naumen.naumencd.presentation.views.card;
 
+import android.view.ActionMode;
+
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
@@ -15,9 +17,17 @@ public interface CardView extends MvpView {
 
     void removeWait();
 
-    void onFailure(String appErrorMessage);
-
-    void setComputer(Item computer);
-
     void setComputersSimilar(List<Item> computersSimilar);
+
+    void setActionBar(String name);
+
+    void setCompany(String name);
+
+    void setIntroduced(String finalDate);
+
+    void setDiscounted(String finalDate);
+
+    void setDescription(String description);
+
+    void setImage(String imageUrl);
 }

@@ -1,98 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nasted"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.activities.home.HomeActivity">
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:textColor="@color/title"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/name_dis"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/computer_name"
-        android:layout_below="@id/name"
-        android:visibility="gone"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/company"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/title"
-        android:layout_below="@id/name_dis"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="gone"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp">
 
-    <TextView
-        android:id="@+id/company_dis"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/company"
-        android:layout_below="@id/company"
-        android:visibility="gone"/>
+            <TextView
+                android:id="@+id/company"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/introduced"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/company_dis"
-        android:textColor="@color/title"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="gone"/>
+            <TextView
+                android:id="@+id/company_dis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/company"
+                android:text="@string/company"
+                android:textSize="14sp"
+                android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/introduced_dis"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/introduced"
-        android:layout_below="@id/introduced"
-        android:visibility="gone"/>
+            <TextView
+                android:id="@+id/introduced"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/company_dis"
+                android:paddingTop="8dp"
+                android:textColor="@color/text"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/discontinued"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/introduced_dis"
-        android:textColor="@color/title"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:visibility="gone"/>
+            <TextView
+                android:id="@+id/introduced_dis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/introduced"
+                android:text="@string/introduced"
+                android:textSize="14sp"
+                android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/discontinued_dis"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/discontinued"
-        android:layout_below="@id/discontinued"
-        android:visibility="gone"/>
+            <TextView
+                android:id="@+id/discontinued"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/introduced_dis"
+                android:paddingTop="8dp"
+                android:textColor="@color/text"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/discontinued_dis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/discontinued"
+                android:text="@string/discontinued"
+                android:textSize="14sp"
+                android:visibility="gone" />
 
-    <ListView
-        android:id="@+id/computers_similar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ListView>
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/discontinued_dis"
+                android:paddingTop="8dp"
+                android:textColor="@color/text"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/description_dis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/description"
+                android:text="@string/description"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/description_dis"
+                android:paddingTop="8dp"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/line_1dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/image"
+                android:color="@color/add"
+                android:paddingTop="8dp" />
+
+            <TextView
+                android:id="@+id/looking_for"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line_1dp"
+                android:gravity="center_horizontal"
+                android:paddingTop="8dp"
+                android:text="@string/you_must_be_looking_for"
+                android:visibility="gone"
+                android:textSize="14sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/computers_similar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/looking_for"
+                android:orientation="vertical"
+                android:paddingBottom="16dp" />
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
-
-
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 </RelativeLayout>

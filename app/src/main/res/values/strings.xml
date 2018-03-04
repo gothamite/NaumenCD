@@ -6,4 +6,6 @@
     <string name="discontinued">Discontinued</string>
     <string name="previous">PREVIOUS</string>
     <string name="next">NEXT</string>
+    <string name="description">Description</string>
+    <string name="you_must_be_looking_for">You must be looking for:</string>
 </resources>

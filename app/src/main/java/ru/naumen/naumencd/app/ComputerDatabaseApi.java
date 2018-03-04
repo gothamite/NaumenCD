@@ -1,7 +1,5 @@
 package ru.naumen.naumencd.app;
 
-
-
 import java.util.List;
 
 import retrofit2.http.GET;
@@ -12,8 +10,6 @@ import ru.naumen.naumencd.models.Item;
 import rx.Observable;
 
 public interface ComputerDatabaseApi {
-
-    int PAGE_SIZE = 5;
 
     @GET("rest/computers")
     Observable<Computers> getComputers(@Query("p") int page);
