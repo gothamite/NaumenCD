@@ -26,6 +26,7 @@ import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.card.CardPresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.ui.adapters.card.ComputersSimilarAdapter;
+import ru.naumen.naumencd.utils.ResizableCustomView;
 import timber.log.Timber;
 
 public class CardActivity extends MvpAppCompatActivity implements CardView {
@@ -33,6 +34,7 @@ public class CardActivity extends MvpAppCompatActivity implements CardView {
     public static final String TAG = "CardActivity";
     private Bundle selectedComp;
     private ComputersSimilarAdapter adapter;
+    private static final int MAX_LINES =2;
 
     @InjectPresenter
     CardPresenter cardPresenter;
@@ -135,6 +137,7 @@ public class CardActivity extends MvpAppCompatActivity implements CardView {
     public void setDescription(String descriptionText) {
         description.setText(descriptionText);
         description.setVisibility(View.VISIBLE);
+        ResizableCustomView.doResizeTextView(description, MAX_LINES, "... More", true);
         descriptionDis.setVisibility(View.VISIBLE);
     }
 
