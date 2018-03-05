@@ -10,6 +10,7 @@ import ru.naumen.naumencd.app.ComputerDatabaseApp;
 import ru.naumen.naumencd.models.Computers;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
 import ru.naumen.naumencd.presentation.views.home.HomeView;
+import ru.naumen.naumencd.utils.SharedPrefs;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -20,6 +21,9 @@ import timber.log.Timber;
 public class HomePresenter extends BasePresenter<HomeView> {
 
     @Inject
+    SharedPrefs sharedPrefsPage;
+
+    @Inject
     ComputerDatabaseService cdService;
 
     public HomePresenter() {
@@ -27,10 +31,11 @@ public class HomePresenter extends BasePresenter<HomeView> {
     }
 
     public void loadComputers(int page) {
+
         Timber.d("LoadComps" + page);
 
         Observable<Computers> observable = cdService.getComputers(page);
-
+        sharedPrefsPage.putComputers(page);
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -49,22 +54,12 @@ public class HomePresenter extends BasePresenter<HomeView> {
         }
     }
 
-/*    private int loadPrefers() {
-        Gson gson = new Gson();
-        String json = mSharedPrefs.getComputers();
-        Computers computers = gson.fromJson(json, Computers.class);
-        if (computers.getPage() != 0){
-            return computers.getPage();
+    public void loadCompsFromSharedPrefs() {
+        if (sharedPrefsPage.getComputers() != 0){
+            loadComputers(sharedPrefsPage.getComputers());
         }
         else {
-            return  0;
+            loadComputers(0);
         }
     }
-
-    private int savePrefers(){
-        Gson gson = new Gson();
-        String json = gson.toJson(comps);
-        sharedPrefs.putComputers(json);
-    }*/
-
 }

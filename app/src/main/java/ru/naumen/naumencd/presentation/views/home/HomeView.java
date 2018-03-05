@@ -8,6 +8,7 @@ import ru.naumen.naumencd.models.Computers;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface HomeView extends MvpView {
+
     void showWait();
 
     void removeWait();

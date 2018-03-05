@@ -10,6 +10,7 @@ import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 public class ResizableCustomView {
+
     public static void doResizeTextView(final TextView tv, final int maxLine, final String expandText, final boolean viewMore) {
 
         if (tv.getTag() == null) {
@@ -62,7 +63,6 @@ public class ResizableCustomView {
 
                 @Override
                 public void onClick(View widget) {
-
                         tv.setLayoutParams(tv.getLayoutParams());
                         tv.setText(tv.getTag().toString(), TextView.BufferType.SPANNABLE);
                         tv.invalidate();

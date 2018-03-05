@@ -1,7 +1,6 @@
 package ru.naumen.naumencd.app;
 
 import android.app.Application;
-import android.view.View;
 
 import ru.naumen.naumencd.di.AppComponent;
 import ru.naumen.naumencd.di.DaggerAppComponent;
@@ -13,7 +12,7 @@ import timber.log.Timber;
 public class ComputerDatabaseApp extends Application {
 
     private static AppComponent appComponent;
-    //TODO ProgressBar добавить?
+
     @Override
     public void onCreate() {
         super.onCreate();

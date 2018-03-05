@@ -9,6 +9,7 @@ import ru.naumen.naumencd.models.Item;
 import rx.Observable;
 
 public class ComputerDatabaseService {
+
     private ComputerDatabaseApi cdApi;
 
     public ComputerDatabaseService(ComputerDatabaseApi computerDatabaseApi) {

@@ -34,7 +34,7 @@ public class CardActivity extends MvpAppCompatActivity implements CardView {
     public static final String TAG = "CardActivity";
     private Bundle selectedComp;
     private ComputersSimilarAdapter adapter;
-    private static final int MAX_LINES =2;
+    private static final int MAX_LINES = 2;
 
     @InjectPresenter
     CardPresenter cardPresenter;

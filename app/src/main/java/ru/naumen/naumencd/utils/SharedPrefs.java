@@ -13,11 +13,12 @@ public class SharedPrefs {
     public SharedPrefs(Context context) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
-    public void putComputers(String str) {
-        sharedPreferences.edit().putString(COMPUTERS, str).apply();
+
+    public void putComputers(int page) {
+        sharedPreferences.edit().putInt(COMPUTERS, page).apply();
     }
 
-    public String getComputers() {
-        return sharedPreferences.getString(COMPUTERS, null);
+    public int getComputers() {
+        return sharedPreferences.getInt(COMPUTERS, 0);
     }
 }

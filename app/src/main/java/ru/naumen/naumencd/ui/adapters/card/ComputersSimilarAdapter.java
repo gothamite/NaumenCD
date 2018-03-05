@@ -15,7 +15,9 @@ import butterknife.ButterKnife;
 import ru.naumen.naumencd.R;
 import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.ui.activities.card.CardActivity;
+
 public class ComputersSimilarAdapter extends RecyclerView.Adapter<ComputersSimilarAdapter.ViewHolder> {
+
     private List<Item> computers = Collections.emptyList();
 
     public ComputersSimilarAdapter() {

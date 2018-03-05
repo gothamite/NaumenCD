@@ -13,6 +13,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.naumen.naumencd.R;
@@ -26,9 +28,7 @@ import ru.naumen.naumencd.utils.SharedPrefs;
 public class HomeActivity extends MvpAppCompatActivity implements HomeView {
 
     public static final String TAG = "HomeActivity";
-    public static final String SAVE_COMPUTERS = "SAVE_COMPUTERS";
     private ComputersListAdapter adapter;
-    private SharedPrefs sharedPrefs;
     private int pageNumber;
     private int pageAll;
     private List<Item> comps;
@@ -56,10 +56,7 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
-        homePresenter.loadComputers(0);
-
-        sharedPrefs = new SharedPrefs(this);
-        //  homePresenter.loadComputers(0); // TODO если приложение открывается заново при нехватке памяти то берем из prefs
+        homePresenter.loadCompsFromSharedPrefs();
     }
 
     @Override
