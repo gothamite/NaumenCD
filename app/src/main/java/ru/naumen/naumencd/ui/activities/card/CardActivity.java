@@ -1,6 +1,7 @@
 package ru.naumen.naumencd.ui.activities.card;
 
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,12 +13,7 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +23,6 @@ import ru.naumen.naumencd.presentation.presenters.card.CardPresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.ui.adapters.card.ComputersSimilarAdapter;
 import ru.naumen.naumencd.utils.ResizableCustomView;
-import timber.log.Timber;
 
 public class CardActivity extends MvpAppCompatActivity implements CardView {
 
@@ -38,6 +33,9 @@ public class CardActivity extends MvpAppCompatActivity implements CardView {
 
     @InjectPresenter
     CardPresenter cardPresenter;
+
+    @BindView(R.id.nested)
+    NestedScrollView nestedScrollView;
 
     @BindView(R.id.computers_similar)
     RecyclerView recyclerView;
