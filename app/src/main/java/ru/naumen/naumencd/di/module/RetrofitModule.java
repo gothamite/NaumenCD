@@ -5,10 +5,10 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ru.naumen.naumencd.utils.NetworkInterceptor;
 
 @Module
 public class RetrofitModule {
@@ -17,7 +17,10 @@ public class RetrofitModule {
     @Singleton
     Retrofit provideRetrofit() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.addInterceptor(new NetworkInterceptor());
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        builder.addInterceptor(loggingInterceptor);
 
         return new Retrofit.Builder()
                 .baseUrl("http://testwork.nsd.naumen.ru/")
