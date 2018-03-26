@@ -1,8 +1,6 @@
 package ru.naumen.naumencd.presentation.presenters.card;
 
 
-import com.arellomobile.mvp.InjectViewState;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,15 +20,15 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-@InjectViewState
-public class CardPresenter extends BasePresenter<CardView> {
+public class CardPresenter extends BasePresenter {
+    private final CardView view;
 
-    @Inject
-    ComputerDatabaseService cdService;
+    private ComputerDatabaseService cdService;
 
-    public CardPresenter() {
-        ComputerDatabaseApp.getAppComponent().inject(this);
-    }
+   public CardPresenter(CardView view, ComputerDatabaseService cdService){
+       this.view = view;
+       this.cdService = cdService;
+   }
 
     public void loadComputer(int id) {
         Timber.d("************************LoadComp" + id);
@@ -52,7 +50,7 @@ public class CardPresenter extends BasePresenter<CardView> {
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(similarComputers -> getViewState().setComputersSimilar(similarComputers));
+                .subscribe(view::setComputersSimilar);
         unsubscribeOnDestroy(subscription);
     }
 
@@ -65,13 +63,13 @@ public class CardPresenter extends BasePresenter<CardView> {
         String finalDate;
 
         if (computer.getName() != null) {
-            getViewState().setActionBar(computer.getName());
+            view.setActionBar(computer.getName());
         } else {
-            getViewState().setActionBar("Naumen CD");
+            view.setActionBar("Naumen CD");
         }
 
         if (computer.getCompany() != null) {
-            getViewState().setCompany(computer.getCompany().getName());
+            view.setCompany(computer.getCompany().getName());
         }
         if (computer.getIntroduced() != null) {
             try {
@@ -80,7 +78,7 @@ public class CardPresenter extends BasePresenter<CardView> {
                 e.printStackTrace();
             }
             finalDate = formattedDate.format(date);
-            getViewState().setIntroduced(finalDate);
+            view.setIntroduced(finalDate);
         }
 
         if (computer.getDiscounted() != null) {
@@ -90,16 +88,19 @@ public class CardPresenter extends BasePresenter<CardView> {
                 e.printStackTrace();
             }
             finalDate = formattedDate.format(date);
-            getViewState().setDiscounted(finalDate);
+            view.setDiscounted(finalDate);
         }
 
         if (computer.getDescription() != null) {
-            getViewState().setDescription(computer.getDescription());
+            view.setDescription(computer.getDescription());
         }
 
         if (computer.getImageUrl() != null) {
-            getViewState().setImage(computer.getImageUrl());
+            view.setImage(computer.getImageUrl());
         }
-        getViewState().removeWait();
+        view.removeWait();
+    }
+    public void finish() {
+        onDestroy();
     }
 }

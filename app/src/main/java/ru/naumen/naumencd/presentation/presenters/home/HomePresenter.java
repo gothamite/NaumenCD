@@ -1,12 +1,7 @@
 package ru.naumen.naumencd.presentation.presenters.home;
 
 
-import com.arellomobile.mvp.InjectViewState;
-
-import javax.inject.Inject;
-
 import ru.naumen.naumencd.ComputerDatabaseService;
-import ru.naumen.naumencd.app.ComputerDatabaseApp;
 import ru.naumen.naumencd.models.Computers;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
 import ru.naumen.naumencd.presentation.views.home.HomeView;
@@ -17,17 +12,15 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-@InjectViewState
-public class HomePresenter extends BasePresenter<HomeView> {
+public class HomePresenter extends BasePresenter {
+    private final HomeView view;
+    private final ComputerDatabaseService cdService;
+    private final SharedPrefs sharedPrefsPage;
 
-    @Inject
-    SharedPrefs sharedPrefsPage;
-
-    @Inject
-    ComputerDatabaseService cdService;
-
-    public HomePresenter() {
-        ComputerDatabaseApp.getAppComponent().inject(this);
+    public HomePresenter(HomeView view, ComputerDatabaseService cdService, SharedPrefs sharedPrefsPage) {
+        this.view = view;
+        this.cdService = cdService;
+        this.sharedPrefsPage = sharedPrefsPage;
     }
 
     public void loadComputers(int page) {
@@ -39,9 +32,8 @@ public class HomePresenter extends BasePresenter<HomeView> {
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(computers -> getViewState().setComputers(computers));
+                .subscribe(view::setComputers);
         unsubscribeOnDestroy(subscription);
-
     }
 
     public int calculatePages(Integer total) {
@@ -55,11 +47,14 @@ public class HomePresenter extends BasePresenter<HomeView> {
     }
 
     public void loadCompsFromSharedPrefs() {
-        if (sharedPrefsPage.getComputers() != 0){
+        if (sharedPrefsPage.getComputers() != 0) {
             loadComputers(sharedPrefsPage.getComputers());
-        }
-        else {
+        } else {
             loadComputers(0);
         }
+    }
+
+    public void finish() {
+        onDestroy();
     }
 }
