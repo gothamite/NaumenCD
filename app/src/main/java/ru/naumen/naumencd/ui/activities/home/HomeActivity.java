@@ -18,8 +18,8 @@ import butterknife.ButterKnife;
 import ru.naumen.naumencd.ComputerDatabaseService;
 import ru.naumen.naumencd.R;
 import ru.naumen.naumencd.app.ComputerDatabaseApp;
-import ru.naumen.naumencd.di.HomeComponent;
-import ru.naumen.naumencd.di.module.HomeModule;
+import ru.naumen.naumencd.di.home.HomeComponent;
+import ru.naumen.naumencd.di.home.HomeModule;
 import ru.naumen.naumencd.models.Computers;
 import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.home.HomePresenter;
@@ -31,20 +31,15 @@ import timber.log.Timber;
 public class HomeActivity extends AppCompatActivity implements HomeView {
 
     public static final String TAG = "HomeActivity";
-    private ComputersListAdapter adapter;
     private int pageNumber;
     private int pageAll;
     private List<Item> comps;
     private HomeComponent homeComponent;
 
     @Inject
-    ComputerDatabaseService cdService;
-
-    @Inject
     HomePresenter homePresenter;
-
     @Inject
-    SharedPrefs sharedPrefsPage;
+    ComputersListAdapter adapter;
 
     @BindView(R.id.computers_list)
     RecyclerView recyclerView;
@@ -61,11 +56,9 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-        Timber.tag("HomeActivity").d("onCreate");
         addHomeComponent().inject(this);
 
         showWait();
-        adapter = new ComputersListAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
@@ -109,7 +102,6 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     @Override
     protected void onDestroy() {
-        Timber.tag("HomeActivity").d("onDestroy");
         homePresenter.finish();
         clearHomeComponent();
         super.onDestroy();

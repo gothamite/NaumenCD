@@ -1,7 +1,6 @@
-package ru.naumen.naumencd.di;
+package ru.naumen.naumencd.di.card;
 
 import dagger.Subcomponent;
-import ru.naumen.naumencd.di.module.CardModule;
 import ru.naumen.naumencd.ui.activities.card.CardActivity;
 
 @Subcomponent(modules = {CardModule.class})
