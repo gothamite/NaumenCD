@@ -5,6 +5,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -21,11 +22,16 @@ import butterknife.ButterKnife;
 import ru.naumen.naumencd.ComputerDatabaseService;
 import ru.naumen.naumencd.R;
 import ru.naumen.naumencd.app.ComputerDatabaseApp;
+import ru.naumen.naumencd.di.CardComponent;
+import ru.naumen.naumencd.di.HomeComponent;
+import ru.naumen.naumencd.di.module.CardModule;
+import ru.naumen.naumencd.di.module.HomeModule;
 import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.card.CardPresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.ui.adapters.card.ComputersSimilarAdapter;
 import ru.naumen.naumencd.utils.ResizableCustomView;
+import timber.log.Timber;
 
 public class CardActivity extends AppCompatActivity implements CardView {
 
@@ -33,6 +39,7 @@ public class CardActivity extends AppCompatActivity implements CardView {
     private Bundle selectedComp;
     private ComputersSimilarAdapter adapter;
     private static final int MAX_LINES = 2;
+    private CardComponent cardComponent;
 
     @Inject
     ComputerDatabaseService cdService;
@@ -82,10 +89,13 @@ public class CardActivity extends AppCompatActivity implements CardView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.tag("CardActivity").d("onCreate");
+        Log.d("CardActivity", "onCreate");
         setContentView(R.layout.activity_card);
         ButterKnife.bind(this);
-        ComputerDatabaseApp.getAppComponent().inject(this);
-        cardPresenter.onCreate(this);
+
+        addCardComponent().inject(this);
+
         showWait();
 
         selectedComp = getIntent().getExtras();
@@ -95,6 +105,12 @@ public class CardActivity extends AppCompatActivity implements CardView {
 
         cardPresenter.loadComputer(selectedComp.getInt("SELECTED_COMPUTER_ID"));
         cardPresenter.loadSimilarComputers(selectedComp.getInt("SELECTED_COMPUTER_ID"));
+    }
+
+    @Override
+    protected void onStart() {
+        Log.d("CardActivity", "onStart");
+        super.onStart();
     }
 
     @Override
@@ -152,9 +168,25 @@ public class CardActivity extends AppCompatActivity implements CardView {
         Picasso.with(this).load(imageUrl).into(image);
         image.setVisibility(View.VISIBLE);
     }
+
     @Override
     protected void onDestroy() {
+        Timber.tag("CardActivity").d("onDestroy");
         cardPresenter.finish();
+        clearCardComponent();
         super.onDestroy();
     }
+
+
+    public CardComponent addCardComponent() {
+        if (cardComponent == null) {
+            cardComponent = ComputerDatabaseApp.getAppComponent().addCardComponent(new CardModule(this));
+        }
+        return cardComponent;
+    }
+
+    public void clearCardComponent() {
+        cardComponent = null;
+    }
+
 }

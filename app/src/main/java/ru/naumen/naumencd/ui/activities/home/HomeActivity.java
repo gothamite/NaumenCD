@@ -18,12 +18,15 @@ import butterknife.ButterKnife;
 import ru.naumen.naumencd.ComputerDatabaseService;
 import ru.naumen.naumencd.R;
 import ru.naumen.naumencd.app.ComputerDatabaseApp;
+import ru.naumen.naumencd.di.HomeComponent;
+import ru.naumen.naumencd.di.module.HomeModule;
 import ru.naumen.naumencd.models.Computers;
 import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.home.HomePresenter;
 import ru.naumen.naumencd.presentation.views.home.HomeView;
 import ru.naumen.naumencd.ui.adapters.home.ComputersListAdapter;
 import ru.naumen.naumencd.utils.SharedPrefs;
+import timber.log.Timber;
 
 public class HomeActivity extends AppCompatActivity implements HomeView {
 
@@ -32,6 +35,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     private int pageNumber;
     private int pageAll;
     private List<Item> comps;
+    private HomeComponent homeComponent;
 
     @Inject
     ComputerDatabaseService cdService;
@@ -57,8 +61,8 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
-        ComputerDatabaseApp.getAppComponent().inject(this);
-        homePresenter.onCreate(this);
+        Timber.tag("HomeActivity").d("onCreate");
+        addHomeComponent().inject(this);
 
         showWait();
         adapter = new ComputersListAdapter();
@@ -105,7 +109,21 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     @Override
     protected void onDestroy() {
+        Timber.tag("HomeActivity").d("onDestroy");
         homePresenter.finish();
+        clearHomeComponent();
         super.onDestroy();
     }
+
+    public HomeComponent addHomeComponent() {
+        if (homeComponent == null) {
+            homeComponent = ComputerDatabaseApp.getAppComponent().addHomeComponent(new HomeModule(this));
+        }
+        return homeComponent;
+    }
+
+    public void clearHomeComponent() {
+        homeComponent = null;
+    }
+
 }

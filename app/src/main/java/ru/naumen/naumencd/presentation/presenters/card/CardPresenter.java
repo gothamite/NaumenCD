@@ -12,7 +12,6 @@ import ru.naumen.naumencd.ComputerDatabaseService;
 import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
-import ru.naumen.naumencd.presentation.views.home.HomeView;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -21,16 +20,13 @@ import timber.log.Timber;
 
 public class CardPresenter extends BasePresenter {
 
-    private Optional<CardView> mView = Optional.empty();
+    private Optional<CardView> optionalView = Optional.empty();
 
     private ComputerDatabaseService cdService;
 
-    public CardPresenter(ComputerDatabaseService cdService) {
+    public CardPresenter(CardView cardView, ComputerDatabaseService cdService) {
         this.cdService = cdService;
-    }
-
-    public void onCreate(CardView view) {
-        this.mView = Optional.of(view);
+        optionalView = Optional.of(cardView);
     }
 
     public void loadComputer(int id) {
@@ -41,7 +37,7 @@ public class CardPresenter extends BasePresenter {
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(item -> mView.ifPresent(cardView -> setComputer(item, cardView)));
+                .subscribe(item -> optionalView.ifPresent(cardView -> setComputer(item, cardView)));
         unsubscribeOnDestroy(subscription);
     }
 
@@ -53,7 +49,7 @@ public class CardPresenter extends BasePresenter {
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(similar -> mView.ifPresent(v -> v.setComputersSimilar(similar)));
+                .subscribe(similar -> optionalView.ifPresent(v -> v.setComputersSimilar(similar)));
         unsubscribeOnDestroy(subscription);
     }
 
@@ -105,7 +101,7 @@ public class CardPresenter extends BasePresenter {
     }
 
     public void finish() {
-        mView = Optional.empty();
+        optionalView = Optional.empty();
         onDestroy();
     }
 }

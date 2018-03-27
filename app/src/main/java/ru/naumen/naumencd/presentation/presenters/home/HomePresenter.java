@@ -15,17 +15,14 @@ import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class HomePresenter extends BasePresenter {
-    private Optional<HomeView> mView = Optional.empty();
+    private Optional<HomeView> optionalView = Optional.empty();
     private final ComputerDatabaseService cdService;
     private final SharedPrefs sharedPrefsPage;
 
-    public HomePresenter(ComputerDatabaseService cdService, SharedPrefs sharedPrefsPage) {
+    public HomePresenter(HomeView homeView, ComputerDatabaseService cdService, SharedPrefs sharedPrefsPage) {
         this.cdService = cdService;
         this.sharedPrefsPage = sharedPrefsPage;
-    }
-
-    public void onCreate(HomeView view) {
-        this.mView = Optional.of(view);
+        optionalView = Optional.of(homeView);
     }
 
     public void loadComputers(int page) {
@@ -37,7 +34,7 @@ public class HomePresenter extends BasePresenter {
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(comps -> mView.ifPresent(v -> v.setComputers(comps)));
+                .subscribe(comps -> optionalView.ifPresent(v -> v.setComputers(comps)));
         unsubscribeOnDestroy(subscription);
     }
 
@@ -60,7 +57,7 @@ public class HomePresenter extends BasePresenter {
     }
 
     public void finish() {
-        mView = Optional.empty();
+        optionalView = Optional.empty();
         onDestroy();
     }
 }
