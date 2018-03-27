@@ -2,6 +2,7 @@ package ru.naumen.naumencd.ui.activities.card;
 
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,29 +10,34 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.naumen.naumencd.ComputerDatabaseService;
 import ru.naumen.naumencd.R;
+import ru.naumen.naumencd.app.ComputerDatabaseApp;
 import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.card.CardPresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.ui.adapters.card.ComputersSimilarAdapter;
 import ru.naumen.naumencd.utils.ResizableCustomView;
 
-public class CardActivity extends MvpAppCompatActivity implements CardView {
+public class CardActivity extends AppCompatActivity implements CardView {
 
     public static final String TAG = "CardActivity";
     private Bundle selectedComp;
     private ComputersSimilarAdapter adapter;
     private static final int MAX_LINES = 2;
 
-    @InjectPresenter
+    @Inject
+    ComputerDatabaseService cdService;
+
+    @Inject
     CardPresenter cardPresenter;
 
     @BindView(R.id.nested)
@@ -78,6 +84,8 @@ public class CardActivity extends MvpAppCompatActivity implements CardView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
         ButterKnife.bind(this);
+        ComputerDatabaseApp.getAppComponent().inject(this);
+        cardPresenter.onCreate(this);
         showWait();
 
         selectedComp = getIntent().getExtras();
@@ -143,5 +151,10 @@ public class CardActivity extends MvpAppCompatActivity implements CardView {
     public void setImage(String imageUrl) {
         Picasso.with(this).load(imageUrl).into(image);
         image.setVisibility(View.VISIBLE);
+    }
+    @Override
+    protected void onDestroy() {
+        cardPresenter.finish();
+        super.onDestroy();
     }
 }

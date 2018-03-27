@@ -1,6 +1,7 @@
 package ru.naumen.naumencd.ui.activities.home;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,16 +9,15 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.presenter.InjectPresenter;
-
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.naumen.naumencd.ComputerDatabaseService;
 import ru.naumen.naumencd.R;
+import ru.naumen.naumencd.app.ComputerDatabaseApp;
 import ru.naumen.naumencd.models.Computers;
 import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.home.HomePresenter;
@@ -25,7 +25,7 @@ import ru.naumen.naumencd.presentation.views.home.HomeView;
 import ru.naumen.naumencd.ui.adapters.home.ComputersListAdapter;
 import ru.naumen.naumencd.utils.SharedPrefs;
 
-public class HomeActivity extends MvpAppCompatActivity implements HomeView {
+public class HomeActivity extends AppCompatActivity implements HomeView {
 
     public static final String TAG = "HomeActivity";
     private ComputersListAdapter adapter;
@@ -33,8 +33,14 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView {
     private int pageAll;
     private List<Item> comps;
 
-    @InjectPresenter
+    @Inject
+    ComputerDatabaseService cdService;
+
+    @Inject
     HomePresenter homePresenter;
+
+    @Inject
+    SharedPrefs sharedPrefsPage;
 
     @BindView(R.id.computers_list)
     RecyclerView recyclerView;
@@ -45,17 +51,21 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView {
     @BindView(R.id.pages)
     TextView pages;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+        ComputerDatabaseApp.getAppComponent().inject(this);
+        homePresenter.onCreate(this);
 
         showWait();
         adapter = new ComputersListAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
+
         homePresenter.loadCompsFromSharedPrefs();
     }
 
@@ -91,5 +101,11 @@ public class HomeActivity extends MvpAppCompatActivity implements HomeView {
             showWait();
             homePresenter.loadComputers(pageNumber + 1);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        homePresenter.finish();
+        super.onDestroy();
     }
 }

@@ -1,12 +1,9 @@
 package ru.naumen.naumencd.presentation.presenters.home;
 
 
-import com.arellomobile.mvp.InjectViewState;
-
-import javax.inject.Inject;
+import java.util.Optional;
 
 import ru.naumen.naumencd.ComputerDatabaseService;
-import ru.naumen.naumencd.app.ComputerDatabaseApp;
 import ru.naumen.naumencd.models.Computers;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
 import ru.naumen.naumencd.presentation.views.home.HomeView;
@@ -17,17 +14,18 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
-@InjectViewState
-public class HomePresenter extends BasePresenter<HomeView> {
+public class HomePresenter extends BasePresenter {
+    private Optional<HomeView> mView = Optional.empty();
+    private final ComputerDatabaseService cdService;
+    private final SharedPrefs sharedPrefsPage;
 
-    @Inject
-    SharedPrefs sharedPrefsPage;
+    public HomePresenter(ComputerDatabaseService cdService, SharedPrefs sharedPrefsPage) {
+        this.cdService = cdService;
+        this.sharedPrefsPage = sharedPrefsPage;
+    }
 
-    @Inject
-    ComputerDatabaseService cdService;
-
-    public HomePresenter() {
-        ComputerDatabaseApp.getAppComponent().inject(this);
+    public void onCreate(HomeView view) {
+        this.mView = Optional.of(view);
     }
 
     public void loadComputers(int page) {
@@ -39,9 +37,8 @@ public class HomePresenter extends BasePresenter<HomeView> {
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(computers -> getViewState().setComputers(computers));
+                .subscribe(comps -> mView.ifPresent(v -> v.setComputers(comps)));
         unsubscribeOnDestroy(subscription);
-
     }
 
     public int calculatePages(Integer total) {
@@ -55,11 +52,15 @@ public class HomePresenter extends BasePresenter<HomeView> {
     }
 
     public void loadCompsFromSharedPrefs() {
-        if (sharedPrefsPage.getComputers() != 0){
+        if (sharedPrefsPage.getComputers() != 0) {
             loadComputers(sharedPrefsPage.getComputers());
-        }
-        else {
+        } else {
             loadComputers(0);
         }
+    }
+
+    public void finish() {
+        mView = Optional.empty();
+        onDestroy();
     }
 }
