@@ -60,7 +60,7 @@ public class HomePresenter extends BasePresenter {
     }
 
     public void finish() {
-        mView = null;
+        mView = Optional.empty();
         onDestroy();
     }
 }
