@@ -1,4 +1,4 @@
-package ru.naumen.naumencd.di;
+package ru.naumen.naumencd.di.home;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

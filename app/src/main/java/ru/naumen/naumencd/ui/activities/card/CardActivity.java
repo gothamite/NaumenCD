@@ -22,10 +22,8 @@ import butterknife.ButterKnife;
 import ru.naumen.naumencd.ComputerDatabaseService;
 import ru.naumen.naumencd.R;
 import ru.naumen.naumencd.app.ComputerDatabaseApp;
-import ru.naumen.naumencd.di.CardComponent;
-import ru.naumen.naumencd.di.HomeComponent;
-import ru.naumen.naumencd.di.module.CardModule;
-import ru.naumen.naumencd.di.module.HomeModule;
+import ru.naumen.naumencd.di.card.CardComponent;
+import ru.naumen.naumencd.di.card.CardModule;
 import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.card.CardPresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
@@ -37,15 +35,14 @@ public class CardActivity extends AppCompatActivity implements CardView {
 
     public static final String TAG = "CardActivity";
     private Bundle selectedComp;
-    private ComputersSimilarAdapter adapter;
     private static final int MAX_LINES = 2;
     private CardComponent cardComponent;
 
     @Inject
-    ComputerDatabaseService cdService;
+    CardPresenter cardPresenter;
 
     @Inject
-    CardPresenter cardPresenter;
+    ComputersSimilarAdapter adapter;
 
     @BindView(R.id.nested)
     NestedScrollView nestedScrollView;
@@ -89,8 +86,6 @@ public class CardActivity extends AppCompatActivity implements CardView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Timber.tag("CardActivity").d("onCreate");
-        Log.d("CardActivity", "onCreate");
         setContentView(R.layout.activity_card);
         ButterKnife.bind(this);
 
@@ -99,7 +94,6 @@ public class CardActivity extends AppCompatActivity implements CardView {
         showWait();
 
         selectedComp = getIntent().getExtras();
-        adapter = new ComputersSimilarAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
@@ -171,7 +165,6 @@ public class CardActivity extends AppCompatActivity implements CardView {
 
     @Override
     protected void onDestroy() {
-        Timber.tag("CardActivity").d("onDestroy");
         cardPresenter.finish();
         clearCardComponent();
         super.onDestroy();
