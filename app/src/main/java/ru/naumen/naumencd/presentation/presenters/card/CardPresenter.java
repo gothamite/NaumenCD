@@ -5,15 +5,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.TimeZone;
 
-import javax.inject.Inject;
-
 import ru.naumen.naumencd.ComputerDatabaseService;
-import ru.naumen.naumencd.app.ComputerDatabaseApp;
 import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
+import ru.naumen.naumencd.presentation.views.home.HomeView;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -21,14 +20,18 @@ import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class CardPresenter extends BasePresenter {
-    private final CardView view;
+
+    private Optional<CardView> mView = Optional.empty();
 
     private ComputerDatabaseService cdService;
 
-   public CardPresenter(CardView view, ComputerDatabaseService cdService){
-       this.view = view;
-       this.cdService = cdService;
-   }
+    public CardPresenter(ComputerDatabaseService cdService) {
+        this.cdService = cdService;
+    }
+
+    public void onCreate(CardView view) {
+        this.mView = Optional.of(view);
+    }
 
     public void loadComputer(int id) {
         Timber.d("************************LoadComp" + id);
@@ -38,7 +41,7 @@ public class CardPresenter extends BasePresenter {
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::setComputer);
+                .subscribe(item -> mView.ifPresent(cardView -> setComputer(item, cardView)));
         unsubscribeOnDestroy(subscription);
     }
 
@@ -50,11 +53,11 @@ public class CardPresenter extends BasePresenter {
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(view::setComputersSimilar);
+                .subscribe(similar -> mView.ifPresent(v -> v.setComputersSimilar(similar)));
         unsubscribeOnDestroy(subscription);
     }
 
-    private void setComputer(Item computer) {
+    private void setComputer(Item computer, CardView cardView) {
         SimpleDateFormat responseDate = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
         responseDate.setTimeZone(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat formattedDate = new SimpleDateFormat("dd MMM yyyy");
@@ -63,13 +66,13 @@ public class CardPresenter extends BasePresenter {
         String finalDate;
 
         if (computer.getName() != null) {
-            view.setActionBar(computer.getName());
+            cardView.setActionBar(computer.getName());
         } else {
-            view.setActionBar("Naumen CD");
+            cardView.setActionBar("Naumen CD");
         }
 
         if (computer.getCompany() != null) {
-            view.setCompany(computer.getCompany().getName());
+            cardView.setCompany(computer.getCompany().getName());
         }
         if (computer.getIntroduced() != null) {
             try {
@@ -78,7 +81,7 @@ public class CardPresenter extends BasePresenter {
                 e.printStackTrace();
             }
             finalDate = formattedDate.format(date);
-            view.setIntroduced(finalDate);
+            cardView.setIntroduced(finalDate);
         }
 
         if (computer.getDiscounted() != null) {
@@ -88,19 +91,21 @@ public class CardPresenter extends BasePresenter {
                 e.printStackTrace();
             }
             finalDate = formattedDate.format(date);
-            view.setDiscounted(finalDate);
+            cardView.setDiscounted(finalDate);
         }
 
         if (computer.getDescription() != null) {
-            view.setDescription(computer.getDescription());
+            cardView.setDescription(computer.getDescription());
         }
 
         if (computer.getImageUrl() != null) {
-            view.setImage(computer.getImageUrl());
+            cardView.setImage(computer.getImageUrl());
         }
-        view.removeWait();
+        cardView.removeWait();
     }
+
     public void finish() {
+        mView = Optional.empty();
         onDestroy();
     }
 }

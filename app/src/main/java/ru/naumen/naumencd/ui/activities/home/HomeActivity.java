@@ -32,10 +32,12 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
     private int pageNumber;
     private int pageAll;
     private List<Item> comps;
-    private HomePresenter homePresenter;
 
     @Inject
     ComputerDatabaseService cdService;
+
+    @Inject
+    HomePresenter homePresenter;
 
     @Inject
     SharedPrefs sharedPrefsPage;
@@ -56,6 +58,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         ComputerDatabaseApp.getAppComponent().inject(this);
+        homePresenter.onCreate(this);
 
         showWait();
         adapter = new ComputersListAdapter();
@@ -63,7 +66,6 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
 
-        homePresenter = new HomePresenter(this, cdService, sharedPrefsPage);
         homePresenter.loadCompsFromSharedPrefs();
     }
 

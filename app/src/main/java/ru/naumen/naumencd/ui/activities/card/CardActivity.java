@@ -34,10 +34,11 @@ public class CardActivity extends AppCompatActivity implements CardView {
     private ComputersSimilarAdapter adapter;
     private static final int MAX_LINES = 2;
 
-    private CardPresenter cardPresenter;
-
     @Inject
     ComputerDatabaseService cdService;
+
+    @Inject
+    CardPresenter cardPresenter;
 
     @BindView(R.id.nested)
     NestedScrollView nestedScrollView;
@@ -84,6 +85,7 @@ public class CardActivity extends AppCompatActivity implements CardView {
         setContentView(R.layout.activity_card);
         ButterKnife.bind(this);
         ComputerDatabaseApp.getAppComponent().inject(this);
+        cardPresenter.onCreate(this);
         showWait();
 
         selectedComp = getIntent().getExtras();
@@ -91,7 +93,6 @@ public class CardActivity extends AppCompatActivity implements CardView {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        cardPresenter = new CardPresenter(this, cdService);
         cardPresenter.loadComputer(selectedComp.getInt("SELECTED_COMPUTER_ID"));
         cardPresenter.loadSimilarComputers(selectedComp.getInt("SELECTED_COMPUTER_ID"));
     }

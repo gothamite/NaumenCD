@@ -1,6 +1,8 @@
 package ru.naumen.naumencd.presentation.presenters.home;
 
 
+import java.util.Optional;
+
 import ru.naumen.naumencd.ComputerDatabaseService;
 import ru.naumen.naumencd.models.Computers;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
@@ -13,14 +15,17 @@ import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class HomePresenter extends BasePresenter {
-    private final HomeView view;
+    private Optional<HomeView> mView = Optional.empty();
     private final ComputerDatabaseService cdService;
     private final SharedPrefs sharedPrefsPage;
 
-    public HomePresenter(HomeView view, ComputerDatabaseService cdService, SharedPrefs sharedPrefsPage) {
-        this.view = view;
+    public HomePresenter(ComputerDatabaseService cdService, SharedPrefs sharedPrefsPage) {
         this.cdService = cdService;
         this.sharedPrefsPage = sharedPrefsPage;
+    }
+
+    public void onCreate(HomeView view) {
+        this.mView = Optional.of(view);
     }
 
     public void loadComputers(int page) {
@@ -32,7 +37,7 @@ public class HomePresenter extends BasePresenter {
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(view::setComputers);
+                .subscribe(comps -> mView.ifPresent(v -> v.setComputers(comps)));
         unsubscribeOnDestroy(subscription);
     }
 
@@ -55,6 +60,7 @@ public class HomePresenter extends BasePresenter {
     }
 
     public void finish() {
+        mView = null;
         onDestroy();
     }
 }
