@@ -4,15 +4,10 @@ import java.util.List;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
-import ru.naumen.naumencd.models.Computers;
 import ru.naumen.naumencd.models.Item;
 import rx.Observable;
 
-public interface ComputerDatabaseApi {
-
-    @GET("rest/computers")
-    Observable<Computers> getComputers(@Query("p") int page);
+public interface CardApi {
 
     @GET("rest/computers/{id}")
     Observable<Item> getComputer(@Path("id") int id);

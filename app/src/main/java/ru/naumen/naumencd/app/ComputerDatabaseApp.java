@@ -5,9 +5,6 @@ import android.app.Application;
 import ru.naumen.naumencd.di.AppComponent;
 import ru.naumen.naumencd.di.DaggerAppComponent;
 import ru.naumen.naumencd.di.module.ContextModule;
-import ru.naumen.naumencd.di.module.NavigatorModule;
-import ru.naumen.naumencd.di.module.NetworkModule;
-import ru.naumen.naumencd.di.module.RetrofitModule;
 import timber.log.Timber;
 
 public class ComputerDatabaseApp extends Application {
@@ -21,7 +18,6 @@ public class ComputerDatabaseApp extends Application {
 
         appComponent = DaggerAppComponent.builder()
                 .contextModule(new ContextModule(this))
-
                 .build();
     }
 
