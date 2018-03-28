@@ -19,7 +19,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ru.naumen.naumencd.ComputerDatabaseService;
 import ru.naumen.naumencd.R;
 import ru.naumen.naumencd.app.ComputerDatabaseApp;
 import ru.naumen.naumencd.di.card.CardComponent;
@@ -29,7 +28,6 @@ import ru.naumen.naumencd.presentation.presenters.card.CardPresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.ui.adapters.card.ComputersSimilarAdapter;
 import ru.naumen.naumencd.utils.ResizableCustomView;
-import timber.log.Timber;
 
 public class CardActivity extends AppCompatActivity implements CardView {
 

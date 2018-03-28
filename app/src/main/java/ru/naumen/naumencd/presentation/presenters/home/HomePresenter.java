@@ -3,10 +3,10 @@ package ru.naumen.naumencd.presentation.presenters.home;
 
 import java.util.Optional;
 
-import ru.naumen.naumencd.ComputerDatabaseService;
 import ru.naumen.naumencd.models.Computers;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
 import ru.naumen.naumencd.presentation.views.home.HomeView;
+import ru.naumen.naumencd.repositories.HomeRepository;
 import ru.naumen.naumencd.utils.SharedPrefs;
 import rx.Observable;
 import rx.Subscription;
@@ -16,11 +16,11 @@ import timber.log.Timber;
 
 public class HomePresenter extends BasePresenter {
     private Optional<HomeView> optionalView = Optional.empty();
-    private final ComputerDatabaseService cdService;
+    private final HomeRepository homeRepository;
     private final SharedPrefs sharedPrefsPage;
 
-    public HomePresenter(HomeView homeView, ComputerDatabaseService cdService, SharedPrefs sharedPrefsPage) {
-        this.cdService = cdService;
+    public HomePresenter(HomeView homeView, HomeRepository homeRepository, SharedPrefs sharedPrefsPage) {
+        this.homeRepository = homeRepository;
         this.sharedPrefsPage = sharedPrefsPage;
         optionalView = Optional.of(homeView);
     }
@@ -29,7 +29,7 @@ public class HomePresenter extends BasePresenter {
 
         Timber.d("LoadComps" + page);
 
-        Observable<Computers> observable = cdService.getComputers(page);
+        Observable<Computers> observable = homeRepository.getComputers(page);
         sharedPrefsPage.putComputers(page);
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())

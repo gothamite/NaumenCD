@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.TimeZone;
 
-import ru.naumen.naumencd.ComputerDatabaseService;
 import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
+import ru.naumen.naumencd.repositories.CardRepository;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -22,17 +22,17 @@ public class CardPresenter extends BasePresenter {
 
     private Optional<CardView> optionalView = Optional.empty();
 
-    private ComputerDatabaseService cdService;
+    private CardRepository cardRepository;
 
-    public CardPresenter(CardView cardView, ComputerDatabaseService cdService) {
-        this.cdService = cdService;
+    public CardPresenter(CardView cardView, CardRepository cardRepository) {
+        this.cardRepository = cardRepository;
         optionalView = Optional.of(cardView);
     }
 
     public void loadComputer(int id) {
         Timber.d("************************LoadComp" + id);
 
-        Observable<Item> observable = cdService.getComputer(id);
+        Observable<Item> observable = cardRepository.getComputer(id);
 
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())
@@ -44,7 +44,7 @@ public class CardPresenter extends BasePresenter {
     public void loadSimilarComputers(int id) {
         Timber.d("************************Load SIMILAR Comps" + id);
 
-        Observable<List<Item>> observable = cdService.getComputersSimilar(id);
+        Observable<List<Item>> observable = cardRepository.getComputersSimilar(id);
 
         Subscription subscription = observable
                 .subscribeOn(Schedulers.io())

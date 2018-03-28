@@ -15,7 +15,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ru.naumen.naumencd.ComputerDatabaseService;
 import ru.naumen.naumencd.R;
 import ru.naumen.naumencd.app.ComputerDatabaseApp;
 import ru.naumen.naumencd.di.home.HomeComponent;
@@ -25,8 +24,6 @@ import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.home.HomePresenter;
 import ru.naumen.naumencd.presentation.views.home.HomeView;
 import ru.naumen.naumencd.ui.adapters.home.ComputersListAdapter;
-import ru.naumen.naumencd.utils.SharedPrefs;
-import timber.log.Timber;
 
 public class HomeActivity extends AppCompatActivity implements HomeView {
 
