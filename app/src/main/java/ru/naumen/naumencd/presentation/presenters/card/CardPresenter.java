@@ -4,24 +4,21 @@ package ru.naumen.naumencd.presentation.presenters.card;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import java.util.TimeZone;
 
-import ru.naumen.naumencd.models.Item;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import ru.naumen.naumencd.models.ItemEntity;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.repositories.CardRepository;
-import rx.Observable;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class CardPresenter extends BasePresenter {
 
     private Optional<CardView> optionalView = Optional.empty();
-
     private CardRepository cardRepository;
 
     public CardPresenter(CardView cardView, CardRepository cardRepository) {
@@ -32,28 +29,24 @@ public class CardPresenter extends BasePresenter {
     public void loadComputer(int id) {
         Timber.d("************************LoadComp" + id);
 
-        Observable<Item> observable = cardRepository.getComputer(id);
-
-        Subscription subscription = observable
+        Disposable disposable = cardRepository.getComputer(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(item -> optionalView.ifPresent(cardView -> setComputer(item, cardView)));
-        unsubscribeOnDestroy(subscription);
+        unsubscribeOnDestroy(disposable);
     }
 
     public void loadSimilarComputers(int id) {
         Timber.d("************************Load SIMILAR Comps" + id);
 
-        Observable<List<Item>> observable = cardRepository.getComputersSimilar(id);
-
-        Subscription subscription = observable
+        Disposable disposable = cardRepository.getComputersSimilar(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(similar -> optionalView.ifPresent(v -> v.setComputersSimilar(similar)));
-        unsubscribeOnDestroy(subscription);
+        unsubscribeOnDestroy(disposable);
     }
 
-    private void setComputer(Item computer, CardView cardView) {
+    private void setComputer(ItemEntity computer, CardView cardView) {
         SimpleDateFormat responseDate = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
         responseDate.setTimeZone(TimeZone.getTimeZone("UTC"));
         SimpleDateFormat formattedDate = new SimpleDateFormat("dd MMM yyyy");

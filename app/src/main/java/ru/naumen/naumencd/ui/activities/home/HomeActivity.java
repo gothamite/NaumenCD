@@ -35,6 +35,7 @@ public class HomeActivity extends AppCompatActivity implements HomeView {
 
     @Inject
     HomePresenter homePresenter;
+
     @Inject
     ComputersListAdapter adapter;
 
