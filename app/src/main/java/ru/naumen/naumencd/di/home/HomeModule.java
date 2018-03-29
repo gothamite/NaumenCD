@@ -2,8 +2,6 @@ package ru.naumen.naumencd.di.home;
 
 import android.content.Context;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
@@ -52,4 +50,10 @@ public class HomeModule {
     public HomeApi provideApi(Retrofit retrofit) {
         return retrofit.create(HomeApi.class);
     }
+
+   /* @Provides
+    @HomeScope
+    public AppDatabase provideAppDatabase(Context context) {
+        return Room.databaseBuilder(context, AppDatabase.class, "database").build();
+    }*/
 }

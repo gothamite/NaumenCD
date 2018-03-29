@@ -3,15 +3,15 @@ package ru.naumen.naumencd.presentation.presenters.home;
 
 import java.util.Optional;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import ru.naumen.naumencd.models.Computers;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
 import ru.naumen.naumencd.presentation.views.home.HomeView;
 import ru.naumen.naumencd.repositories.HomeRepository;
 import ru.naumen.naumencd.utils.SharedPrefs;
-import rx.Observable;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 public class HomePresenter extends BasePresenter {
@@ -31,11 +31,11 @@ public class HomePresenter extends BasePresenter {
 
         Observable<Computers> observable = homeRepository.getComputers(page);
         sharedPrefsPage.putComputers(page);
-        Subscription subscription = observable
+        Disposable disposable = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(comps -> optionalView.ifPresent(v -> v.setComputers(comps)));
-        unsubscribeOnDestroy(subscription);
+        unsubscribeOnDestroy(disposable);
     }
 
     public int calculatePages(Integer total) {

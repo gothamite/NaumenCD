@@ -1,9 +1,10 @@
 package ru.naumen.naumencd.repositories;
 
 
+import io.reactivex.Observable;
 import ru.naumen.naumencd.app.HomeApi;
 import ru.naumen.naumencd.models.Computers;
-import rx.Observable;
+
 
 public class HomeRepository {
 

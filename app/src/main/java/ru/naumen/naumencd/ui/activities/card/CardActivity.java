@@ -24,6 +24,8 @@ import ru.naumen.naumencd.app.ComputerDatabaseApp;
 import ru.naumen.naumencd.di.card.CardComponent;
 import ru.naumen.naumencd.di.card.CardModule;
 import ru.naumen.naumencd.models.Item;
+import ru.naumen.naumencd.models.SimilarItem;
+import ru.naumen.naumencd.models.SimilarItemEntity;
 import ru.naumen.naumencd.presentation.presenters.card.CardPresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.ui.adapters.card.ComputersSimilarAdapter;
@@ -100,12 +102,6 @@ public class CardActivity extends AppCompatActivity implements CardView {
     }
 
     @Override
-    protected void onStart() {
-        Log.d("CardActivity", "onStart");
-        super.onStart();
-    }
-
-    @Override
     public void showWait() {
         progressBarLoading.setVisibility(View.VISIBLE);
     }
@@ -116,7 +112,7 @@ public class CardActivity extends AppCompatActivity implements CardView {
     }
 
     @Override
-    public void setComputersSimilar(List<Item> computersSimilar) {
+    public void setComputersSimilar(List<SimilarItem> computersSimilar) {
         adapter.setComputersList(computersSimilar);
         lookingFor.setVisibility(View.VISIBLE);
     }
@@ -167,7 +163,6 @@ public class CardActivity extends AppCompatActivity implements CardView {
         clearCardComponent();
         super.onDestroy();
     }
-
 
     public CardComponent addCardComponent() {
         if (cardComponent == null) {
