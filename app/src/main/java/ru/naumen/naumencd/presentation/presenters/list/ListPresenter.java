@@ -34,7 +34,7 @@ public class ListPresenter extends BasePresenter {
         Disposable disposable = observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(comps -> optionalView.ifPresent(v -> v.setComputers(comps)));
+                .subscribe(comps -> optionalView.ifPresent(v -> v.setComputers(comps)),throwable -> {});
         unsubscribeOnDestroy(disposable);
     }
 

@@ -1,8 +1,11 @@
 package ru.naumen.naumencd.repositories;
 
+import android.util.Log;
+
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import ru.naumen.naumencd.app.CardApi;
 import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.models.ItemEntity;
@@ -35,6 +38,21 @@ public class CardRepository {
     }
 
     public Observable<List<SimilarItem>> getComputersSimilar(int id) {
-        return cardApi.getComputersSimilar(id);
+        Observable<List<SimilarItem>> listObservable = cardApi.getComputersSimilar(id)
+                .subscribeOn(Schedulers.io())
+                .doOnNext(similarItemList -> {
+            for (SimilarItem similarItem : similarItemList) {
+                similarItem.setItemId(id);
+                appDatabase.similarItemDao().insert(similarItem);
+            }
+        });
+
+        return Observable.fromCallable(() -> {
+            List<SimilarItem> similarList = appDatabase.similarItemDao().getSimilarListById(id);
+            if (similarList.size() != 0) {
+                return similarList;
+            }
+            throw new IllegalStateException("SimilarList not found");
+        }).onErrorResumeNext(listObservable);
     }
 }

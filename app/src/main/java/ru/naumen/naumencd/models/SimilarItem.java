@@ -2,10 +2,14 @@ package ru.naumen.naumencd.models;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+import static android.arch.persistence.room.ForeignKey.SET_NULL;
 
 @Entity
 public class SimilarItem implements SimilarItemEntity {
@@ -19,7 +23,16 @@ public class SimilarItem implements SimilarItemEntity {
     @Expose
     private String name;
 
-    public int itemId;
+    @SerializedName("itemId")
+    private Integer itemId;
+
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
+    }
+
+    public Integer getItemId() {
+        return itemId;
+    }
 
     @Override
     public Integer getId() {
