@@ -1,12 +1,12 @@
-package ru.naumen.naumencd.ui.activities.card;
+package ru.naumen.naumencd.ui.fragments.card;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,20 +20,17 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.naumen.naumencd.R;
-import ru.naumen.naumencd.app.ComputerDatabaseApp;
 import ru.naumen.naumencd.di.card.CardComponent;
 import ru.naumen.naumencd.di.card.CardModule;
-import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.models.SimilarItem;
-import ru.naumen.naumencd.models.SimilarItemEntity;
 import ru.naumen.naumencd.presentation.presenters.card.CardPresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
+import ru.naumen.naumencd.ui.activities.home.HomeActivity;
 import ru.naumen.naumencd.ui.adapters.card.ComputersSimilarAdapter;
 import ru.naumen.naumencd.utils.ResizableCustomView;
 
-public class CardActivity extends AppCompatActivity implements CardView {
+public class CardFragment extends Fragment implements CardView {
 
-    public static final String TAG = "CardActivity";
     private Bundle selectedComp;
     private static final int MAX_LINES = 2;
     private CardComponent cardComponent;
@@ -43,9 +40,6 @@ public class CardActivity extends AppCompatActivity implements CardView {
 
     @Inject
     ComputersSimilarAdapter adapter;
-
-    @BindView(R.id.nested)
-    NestedScrollView nestedScrollView;
 
     @BindView(R.id.computers_similar)
     RecyclerView recyclerView;
@@ -84,21 +78,22 @@ public class CardActivity extends AppCompatActivity implements CardView {
     TextView companyDis;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card);
-        ButterKnife.bind(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_card, container, false);
+        ButterKnife.bind(this, view);
 
         addCardComponent().inject(this);
 
         showWait();
 
-        selectedComp = getIntent().getExtras();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        selectedComp = getArguments();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
         cardPresenter.loadComputer(selectedComp.getInt("SELECTED_COMPUTER_ID"));
         cardPresenter.loadSimilarComputers(selectedComp.getInt("SELECTED_COMPUTER_ID"));
+        return view;
     }
 
     @Override
@@ -119,8 +114,10 @@ public class CardActivity extends AppCompatActivity implements CardView {
 
     @Override
     public void setActionBar(String name) {
-        getSupportActionBar().setTitle(name);
+        HomeActivity activity = (HomeActivity) getActivity();
+        activity.setActionBar(name);
     }
+
 
     @Override
     public void setCompany(String name) {
@@ -153,20 +150,21 @@ public class CardActivity extends AppCompatActivity implements CardView {
 
     @Override
     public void setImage(String imageUrl) {
-        Picasso.with(this).load(imageUrl).into(image);
+        Picasso.with(getContext()).load(imageUrl).into(image);
         image.setVisibility(View.VISIBLE);
     }
 
     @Override
-    protected void onDestroy() {
+    public void onStop() {
         cardPresenter.finish();
         clearCardComponent();
-        super.onDestroy();
+        super.onStop();
     }
 
     public CardComponent addCardComponent() {
         if (cardComponent == null) {
-            cardComponent = ComputerDatabaseApp.getAppComponent().addCardComponent(new CardModule(this));
+            HomeActivity activity = (HomeActivity) getActivity();
+            cardComponent = activity.getActivityComponent().addCardComponent(new CardModule(this));
         }
         return cardComponent;
     }
@@ -174,5 +172,5 @@ public class CardActivity extends AppCompatActivity implements CardView {
     public void clearCardComponent() {
         cardComponent = null;
     }
-
 }
+

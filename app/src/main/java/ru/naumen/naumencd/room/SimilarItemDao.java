@@ -13,15 +13,15 @@ import ru.naumen.naumencd.models.SimilarItem;
 @Dao
 public interface SimilarItemDao {
 
-    @Query("SELECT * FROM SimilarItem WHERE id = :id")
-    List<SimilarItem> getSimilarListById(int id);
+    @Query("SELECT * FROM SimilarItem WHERE itemId = :itemId")
+    List<SimilarItem> getSimilarListById(int itemId);
 
     @Insert
-    void insert(List<SimilarItem> similarItem);
+    void insert(SimilarItem similarItem);
 
     @Update
-    void update(List<SimilarItem> similarItem);
+    void update(SimilarItem similarItem);
 
     @Delete
-    void delete(List<SimilarItem> similarItem);
+    void delete(SimilarItem similarItem);
 }

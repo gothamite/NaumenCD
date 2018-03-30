@@ -1,4 +1,4 @@
-package ru.naumen.naumencd.ui.adapters.home;
+package ru.naumen.naumencd.ui.adapters.list;
 
 
 import android.support.v7.widget.RecyclerView;

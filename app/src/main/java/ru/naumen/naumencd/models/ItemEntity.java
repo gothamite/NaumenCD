@@ -4,31 +4,31 @@ package ru.naumen.naumencd.models;
 
 public interface ItemEntity {
 
-    public Integer getId();
+    Integer getId();
 
-    public void setId(Integer id);
+    void setId(Integer id);
 
-    public String getName();
+    String getName();
 
-    public void setName(String name);
+    void setName(String name);
 
-    public String getIntroduced();
+    String getIntroduced();
 
-    public void setIntroduced(String introduced);
+    void setIntroduced(String introduced);
 
-    public String getDiscounted();
+    String getDiscounted();
 
-    public void setDiscounted(String discounted);
+    void setDiscounted(String discounted);
 
-    public String getImageUrl();
+    String getImageUrl();
 
-    public void setImageUrl(String imageUrl);
+    void setImageUrl(String imageUrl);
 
-    public Company getCompany();
+    Company getCompany();
 
-    public void setCompany(Company company);
+    void setCompany(Company company);
 
-    public String getDescription();
+    String getDescription();
 
-    public void setDescription(String description);
+    void setDescription(String description);
 }

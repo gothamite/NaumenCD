@@ -1,4 +1,4 @@
-package ru.naumen.naumencd.ui.adapters.home;
+package ru.naumen.naumencd.ui.adapters.list;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -46,7 +46,7 @@ public class ComputersListAdapter extends RecyclerView.Adapter<ComputersViewHold
 
     @Override
     public void clickOn(int position) {
-        navigator.goToNextActivity(computers.get(position).getId());
+        navigator.goToNextFragment(computers.get(position).getId());
     }
 }
 

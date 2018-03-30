@@ -2,10 +2,7 @@ package ru.naumen.naumencd.presentation.views.card;
 
 import java.util.List;
 
-import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.models.SimilarItem;
-import ru.naumen.naumencd.models.SimilarItemEntity;
-
 
 public interface CardView {
 

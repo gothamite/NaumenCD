@@ -1,4 +1,4 @@
-package ru.naumen.naumencd.presentation.presenters.home;
+package ru.naumen.naumencd.presentation.presenters.list;
 
 
 import java.util.Optional;
@@ -9,27 +9,27 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ru.naumen.naumencd.models.Computers;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
-import ru.naumen.naumencd.presentation.views.home.HomeView;
-import ru.naumen.naumencd.repositories.HomeRepository;
+import ru.naumen.naumencd.presentation.views.list.ListView;
+import ru.naumen.naumencd.repositories.ListRepository;
 import ru.naumen.naumencd.utils.SharedPrefs;
 import timber.log.Timber;
 
-public class HomePresenter extends BasePresenter {
-    private Optional<HomeView> optionalView = Optional.empty();
-    private final HomeRepository homeRepository;
+public class ListPresenter extends BasePresenter {
+    private Optional<ListView> optionalView = Optional.empty();
+    private final ListRepository listRepository;
     private final SharedPrefs sharedPrefsPage;
 
-    public HomePresenter(HomeView homeView, HomeRepository homeRepository, SharedPrefs sharedPrefsPage) {
-        this.homeRepository = homeRepository;
+    public ListPresenter(ListView listView, ListRepository listRepository, SharedPrefs sharedPrefsPage) {
+        this.listRepository = listRepository;
         this.sharedPrefsPage = sharedPrefsPage;
-        optionalView = Optional.of(homeView);
+        optionalView = Optional.of(listView);
     }
 
     public void loadComputers(int page) {
 
         Timber.d("LoadComps" + page);
 
-        Observable<Computers> observable = homeRepository.getComputers(page);
+        Observable<Computers> observable = listRepository.getComputers(page);
         sharedPrefsPage.putComputers(page);
         Disposable disposable = observable
                 .subscribeOn(Schedulers.io())
