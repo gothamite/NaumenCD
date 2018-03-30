@@ -7,7 +7,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import ru.naumen.naumencd.models.Computers;
+import ru.naumen.naumencd.models.dto.Computers;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
 import ru.naumen.naumencd.presentation.views.list.ListView;
 import ru.naumen.naumencd.repositories.ListRepository;

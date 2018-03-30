@@ -1,7 +1,5 @@
 package ru.naumen.naumencd.repositories;
 
-import android.util.Log;
-
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -10,7 +8,6 @@ import ru.naumen.naumencd.app.CardApi;
 import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.models.ItemEntity;
 import ru.naumen.naumencd.models.SimilarItem;
-import ru.naumen.naumencd.models.SimilarItemEntity;
 import ru.naumen.naumencd.room.AppDatabase;
 
 public class CardRepository {
@@ -37,7 +34,7 @@ public class CardRepository {
         }).onErrorResumeNext(itemObservable);
     }
 
-    public Observable<List<SimilarItem>> getComputersSimilar(int id) {
+    public Observable<List<SimilarItem>> getComputersSimilar(int id) { //TODO не получилось с <? extends Interface>
         Observable<List<SimilarItem>> listObservable = cardApi.getComputersSimilar(id)
                 .subscribeOn(Schedulers.io())
                 .doOnNext(similarItemList -> {
@@ -47,7 +44,7 @@ public class CardRepository {
             }
         });
 
-        return Observable.fromCallable(() -> {
+        return  Observable.fromCallable(() -> {
             List<SimilarItem> similarList = appDatabase.similarItemDao().getSimilarListById(id);
             if (similarList.size() != 0) {
                 return similarList;

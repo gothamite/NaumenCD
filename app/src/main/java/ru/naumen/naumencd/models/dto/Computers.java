@@ -1,10 +1,12 @@
-package ru.naumen.naumencd.models;
+package ru.naumen.naumencd.models.dto;
 
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+
+import ru.naumen.naumencd.models.Item;
 
 public class Computers {
 

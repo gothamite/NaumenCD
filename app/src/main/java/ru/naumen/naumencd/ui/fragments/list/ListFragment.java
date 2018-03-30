@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,7 +22,7 @@ import butterknife.OnClick;
 import ru.naumen.naumencd.R;
 import ru.naumen.naumencd.di.home.ListComponent;
 import ru.naumen.naumencd.di.home.ListModule;
-import ru.naumen.naumencd.models.Computers;
+import ru.naumen.naumencd.models.dto.Computers;
 import ru.naumen.naumencd.models.Item;
 import ru.naumen.naumencd.presentation.presenters.list.ListPresenter;
 import ru.naumen.naumencd.presentation.views.list.ListView;

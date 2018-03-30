@@ -1,6 +1,7 @@
 package ru.naumen.naumencd.models;
 
 
+import ru.naumen.naumencd.models.dto.Company;
 
 public interface ItemEntity {
 

@@ -29,7 +29,7 @@ public class SimilarViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void initListSimilar(SimilarItem item) {
+    public void initListSimilar(SimilarItemEntity item) {
         if (item.getName() != null) {
             name.setText(item.getName());
         }

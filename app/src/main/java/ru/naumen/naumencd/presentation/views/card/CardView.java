@@ -2,7 +2,7 @@ package ru.naumen.naumencd.presentation.views.card;
 
 import java.util.List;
 
-import ru.naumen.naumencd.models.SimilarItem;
+import ru.naumen.naumencd.models.SimilarItemEntity;
 
 public interface CardView {
 
@@ -10,7 +10,7 @@ public interface CardView {
 
     void removeWait();
 
-    void setComputersSimilar(List<SimilarItem> computersSimilar);
+    void setComputersSimilar(List<? extends SimilarItemEntity> computersSimilar);
 
     void setActionBar(String name);
 

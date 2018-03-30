@@ -8,6 +8,8 @@ import android.arch.persistence.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import ru.naumen.naumencd.models.dto.Company;
+
 @Entity
 public class Item implements ItemEntity{
 

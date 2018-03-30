@@ -3,7 +3,7 @@ package ru.naumen.naumencd.app;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import ru.naumen.naumencd.models.Computers;
+import ru.naumen.naumencd.models.dto.Computers;
 
 public interface ListApi {
 

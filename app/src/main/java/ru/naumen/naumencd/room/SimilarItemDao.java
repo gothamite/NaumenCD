@@ -9,6 +9,7 @@ import android.arch.persistence.room.Update;
 import java.util.List;
 
 import ru.naumen.naumencd.models.SimilarItem;
+import ru.naumen.naumencd.models.SimilarItemEntity;
 
 @Dao
 public interface SimilarItemDao {

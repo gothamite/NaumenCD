@@ -1,6 +1,6 @@
 package ru.naumen.naumencd.presentation.views.list;
 
-import ru.naumen.naumencd.models.Computers;
+import ru.naumen.naumencd.models.dto.Computers;
 
 public interface ListView {
 
