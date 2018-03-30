@@ -3,11 +3,11 @@ package ru.naumen.naumencd.models;
 
 public interface SimilarItemEntity {
 
-    public Integer getId();
+    Integer getId();
 
-    public void setId(Integer id);
+    void setId(Integer id);
 
-    public String getName();
+    String getName();
 
-    public void setName(String name);
+    void setName(String name);
 }

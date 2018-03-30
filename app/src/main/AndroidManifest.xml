@@ -13,17 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.activities.home.HomeActivity"
-            android:configChanges="orientation|screenSize">
+            android:name=".ui.activities.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activities.card.CardActivity"
-            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>

@@ -25,7 +25,7 @@ public class ComputersSimilarAdapter extends RecyclerView.Adapter<SimilarViewHol
 
     @Override
     public void clickOn(int position) {
-        navigator.goToNextActivity(computers.get(position).getId());
+        navigator.goToNextFragment(computers.get(position).getId());
     }
 
     @Override
