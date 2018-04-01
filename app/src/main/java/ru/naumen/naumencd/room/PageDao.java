@@ -6,20 +6,21 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import ru.naumen.naumencd.models.Item;
+import ru.naumen.naumencd.models.Page;
 
 @Dao
-public interface ItemDao {
+public interface PageDao {
 
-    @Query("SELECT * FROM Item WHERE id = :id")
-    Item getId(Integer id);
+    @Query("SELECT * FROM Page WHERE page = :page")
+    Page getPage(int page);
 
     @Insert
-    void insert(Item item);
+    void insert(Page page);
 
     @Update
-    void update(Item item);
+    void update(Page page);
 
     @Delete
-    void delete(Item item);
+    void delete(Page page);
+
 }

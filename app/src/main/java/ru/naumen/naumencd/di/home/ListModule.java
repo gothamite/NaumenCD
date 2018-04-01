@@ -1,14 +1,17 @@
 package ru.naumen.naumencd.di.home;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
 import ru.naumen.naumencd.app.ListApi;
+import ru.naumen.naumencd.di.card.CardScope;
 import ru.naumen.naumencd.presentation.presenters.list.ListPresenter;
 import ru.naumen.naumencd.presentation.views.list.ListView;
 import ru.naumen.naumencd.repositories.ListRepository;
+import ru.naumen.naumencd.room.AppDatabase;
 import ru.naumen.naumencd.ui.adapters.list.ComputersListAdapter;
 import ru.naumen.naumencd.utils.Navigator;
 import ru.naumen.naumencd.utils.SharedPrefs;
@@ -41,8 +44,8 @@ public class ListModule {
 
     @Provides
     @ListScope
-    public ListRepository provideListRepository(ListApi listApi) {
-        return new ListRepository(listApi);
+    public ListRepository provideListRepository(ListApi listApi, AppDatabase appDatabase) {
+        return new ListRepository(listApi, appDatabase);
     }
 
     @Provides
@@ -51,9 +54,9 @@ public class ListModule {
         return retrofit.create(ListApi.class);
     }
 
-   /* @Provides
+    @Provides
     @ListScope
     public AppDatabase provideAppDatabase(Context context) {
-        return Room.databaseBuilder(context, AppDatabase.class, "database").build();
-    }*/
+        return Room.databaseBuilder(context, AppDatabase.class, "Database").build();
+    }
 }

@@ -15,7 +15,7 @@ import ru.naumen.naumencd.models.SimilarItemEntity;
 public interface SimilarItemDao {
 
     @Query("SELECT * FROM SimilarItem WHERE itemId = :itemId")
-    List<SimilarItem> getSimilarListById(int itemId);
+    List<SimilarItem> getSimilarListById(Integer itemId);
 
     @Insert
     void insert(SimilarItem similarItem);

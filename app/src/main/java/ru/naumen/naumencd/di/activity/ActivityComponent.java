@@ -11,6 +11,7 @@ import ru.naumen.naumencd.ui.activities.home.HomeActivity;
 @Subcomponent(modules = {ActivityModule.class, NavigatorModule.class})
 @ActivityScope
 public interface ActivityComponent {
+
     ListComponent addListComponent(ListModule listModule);
 
     CardComponent addCardComponent(CardModule cardModule);
