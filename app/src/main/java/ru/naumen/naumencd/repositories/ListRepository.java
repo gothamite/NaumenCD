@@ -11,28 +11,34 @@ import ru.naumen.naumencd.models.dbdto.interfaces.PageItemEntity;
 import ru.naumen.naumencd.models.dto.Computers;
 import ru.naumen.naumencd.models.dto.Item;
 import ru.naumen.naumencd.room.AppDatabase;
+import ru.naumen.naumencd.utils.Timer;
 
 public class ListRepository {
 
     private AppDatabase appDatabase;
     private ListApi listApi;
+    private Timer timer;
 
-    public ListRepository(ListApi listApi, AppDatabase appDatabase) {
+    public ListRepository(ListApi listApi, AppDatabase appDatabase, Timer timer) {
         this.listApi = listApi;
         this.appDatabase = appDatabase;
+        this.timer = timer;
     }
 
     public Observable<PageEntity> getComputers(int page) {
         Observable<PageEntity> getComputersFromApi = listApi.getComputers(page)
                 .map(this::transformFromApi)
-                .doOnNext(this::saveToDatabase);
+                .doOnNext(this::saveToDatabase)
+                .doOnNext(pageEntity -> timer.updateTime("page" + String.valueOf(pageEntity.getPage())));
 
 
         return Observable.fromCallable(() -> {
             PageDbDto pageItem = appDatabase.pageDao().getPage(page);
 
             if (pageItem != null) {
-                return pageItem;
+                if (timer.isTimeValid("page" + String.valueOf(pageItem.getPage()))) {
+                    return pageItem;
+                }
             }
             throw new IllegalStateException("CompsList not found");
         }).map(pageDbDto -> transformFromDb(page, pageDbDto))

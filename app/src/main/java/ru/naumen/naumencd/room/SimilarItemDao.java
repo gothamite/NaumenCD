@@ -17,7 +17,7 @@ public interface SimilarItemDao {
     @Query("SELECT * FROM SimilarItemDbDto WHERE itemId = :itemId")
     List<SimilarItemDbDto> getSimilarListById(Integer itemId);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(SimilarItemDbDto similarItemDbDto);
 
     @Update

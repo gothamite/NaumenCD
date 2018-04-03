@@ -1,8 +1,5 @@
 package ru.naumen.naumencd.di.card;
 
-import android.arch.persistence.room.Room;
-import android.content.Context;
-
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
@@ -12,6 +9,7 @@ import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.repositories.CardRepository;
 import ru.naumen.naumencd.room.AppDatabase;
 import ru.naumen.naumencd.ui.adapters.card.ComputersSimilarAdapter;
+import ru.naumen.naumencd.utils.Timer;
 import ru.naumen.naumencd.utils.Navigator;
 
 @Module
@@ -36,19 +34,13 @@ public class CardModule {
 
     @Provides
     @CardScope
-    public CardRepository provideCardRepository(CardApi cardApi, AppDatabase appDatabase) {
-        return new CardRepository(cardApi, appDatabase);
+    public CardRepository provideCardRepository(CardApi cardApi, AppDatabase appDatabase, Timer hashMap) {
+        return new CardRepository(cardApi, appDatabase, hashMap);
     }
 
     @Provides
     @CardScope
     public CardApi provideApi(Retrofit retrofit) {
         return retrofit.create(CardApi.class);
-    }
-
-    @Provides
-    @CardScope
-    public AppDatabase provideAppDatabase(Context context) {
-        return Room.databaseBuilder(context, AppDatabase.class, "Database").build();
     }
 }
