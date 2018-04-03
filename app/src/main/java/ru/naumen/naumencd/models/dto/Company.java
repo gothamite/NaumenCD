@@ -1,4 +1,4 @@
-package ru.naumen.naumencd.models;
+package ru.naumen.naumencd.models.dto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

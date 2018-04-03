@@ -10,13 +10,13 @@ import java.util.List;
 
 import ru.naumen.naumencd.AdapterClickListener;
 import ru.naumen.naumencd.R;
-import ru.naumen.naumencd.models.SimilarItem;
+import ru.naumen.naumencd.models.dbdto.interfaces.SimilarItemEntity;
 import ru.naumen.naumencd.utils.Navigator;
 
 public class ComputersSimilarAdapter extends RecyclerView.Adapter<SimilarViewHolder>
         implements AdapterClickListener {
 
-    private List<SimilarItem> computers = Collections.emptyList();
+    private List<? extends SimilarItemEntity> computers = Collections.emptyList();
     private Navigator navigator;
 
     public ComputersSimilarAdapter(Navigator navigator) {
@@ -39,7 +39,7 @@ public class ComputersSimilarAdapter extends RecyclerView.Adapter<SimilarViewHol
         holder.initListSimilar(computers.get(position));
     }
 
-    public void setComputersList(List<SimilarItem> computersList) {
+    public void setComputersList(List<? extends SimilarItemEntity> computersList) {
         computers = computersList;
         notifyDataSetChanged();
     }

@@ -1,6 +1,8 @@
 package ru.naumen.naumencd.presentation.presenters.card;
 
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,7 +12,7 @@ import java.util.TimeZone;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import ru.naumen.naumencd.models.ItemEntity;
+import ru.naumen.naumencd.models.dbdto.interfaces.ItemEntity;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.repositories.CardRepository;
@@ -32,7 +34,8 @@ public class CardPresenter extends BasePresenter {
         Disposable disposable = cardRepository.getComputer(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(item -> optionalView.ifPresent(cardView -> setComputer(item, cardView)));
+                .subscribe(item -> optionalView.ifPresent(cardView -> setComputer(item, cardView)),throwable ->
+                        Log.e("loadComputer", throwable.getMessage(), throwable));
         unsubscribeOnDestroy(disposable);
     }
 
@@ -42,7 +45,8 @@ public class CardPresenter extends BasePresenter {
         Disposable disposable = cardRepository.getComputersSimilar(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(similar -> optionalView.ifPresent(v -> v.setComputersSimilar(similar)));
+                .subscribe(similar -> optionalView.ifPresent(v -> v.setComputersSimilar(similar)),throwable ->
+                        Log.e("loadSimilarComp", throwable.getMessage(), throwable));
         unsubscribeOnDestroy(disposable);
     }
 

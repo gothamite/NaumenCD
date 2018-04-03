@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 import ru.naumen.naumencd.R;
 import ru.naumen.naumencd.di.card.CardComponent;
 import ru.naumen.naumencd.di.card.CardModule;
-import ru.naumen.naumencd.models.SimilarItem;
+import ru.naumen.naumencd.models.dbdto.interfaces.SimilarItemEntity;
 import ru.naumen.naumencd.presentation.presenters.card.CardPresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.ui.activities.home.HomeActivity;
@@ -107,7 +107,7 @@ public class CardFragment extends Fragment implements CardView {
     }
 
     @Override
-    public void setComputersSimilar(List<SimilarItem> computersSimilar) {
+    public void setComputersSimilar(List<? extends SimilarItemEntity> computersSimilar) {
         adapter.setComputersList(computersSimilar);
         lookingFor.setVisibility(View.VISIBLE);
     }

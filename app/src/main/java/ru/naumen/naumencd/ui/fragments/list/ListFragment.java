@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -23,8 +22,8 @@ import butterknife.OnClick;
 import ru.naumen.naumencd.R;
 import ru.naumen.naumencd.di.home.ListComponent;
 import ru.naumen.naumencd.di.home.ListModule;
-import ru.naumen.naumencd.models.Computers;
-import ru.naumen.naumencd.models.Item;
+import ru.naumen.naumencd.models.dbdto.PageEntity;
+import ru.naumen.naumencd.models.dbdto.interfaces.PageItemEntity;
 import ru.naumen.naumencd.presentation.presenters.list.ListPresenter;
 import ru.naumen.naumencd.presentation.views.list.ListView;
 import ru.naumen.naumencd.ui.activities.home.HomeActivity;
@@ -34,7 +33,7 @@ public class ListFragment extends Fragment implements ListView {
 
     private int pageNumber;
     private int pageAll;
-    private List<Item> comps;
+    private List<PageItemEntity> comps;
     private ListComponent listComponent;
 
     @Inject
@@ -84,12 +83,12 @@ public class ListFragment extends Fragment implements ListView {
     }
 
     @Override
-    public void setComputers(Computers computers) {
+    public void setComputers(PageEntity computers) {
         comps = computers.getItems();
         adapter.setComputersList(comps);
         pageNumber = computers.getPage();
         pageAll = listPresenter.calculatePages(computers.getTotal());
-        pages.setText("Page " + (pageNumber + 1) + " of " + pageAll);
+        pages.setText((pageNumber + 1) + " of " + pageAll);
         removeWait();
     }
 

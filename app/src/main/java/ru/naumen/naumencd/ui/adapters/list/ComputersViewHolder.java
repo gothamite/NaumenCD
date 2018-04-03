@@ -12,7 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.naumen.naumencd.AdapterClickListener;
 import ru.naumen.naumencd.R;
-import ru.naumen.naumencd.models.Item;
+import ru.naumen.naumencd.models.dbdto.interfaces.PageItemEntity;
 
 public class ComputersViewHolder extends RecyclerView.ViewHolder {
 
@@ -42,8 +42,8 @@ public class ComputersViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void initCompsList(int position, List<Item> computers) {
-        Item comp = computers.get(position);
+    public void initCompsList(int position, List<PageItemEntity> computers) {
+        PageItemEntity comp = computers.get(position);
 
         if (comp.getName() != null) {
             name.setText(comp.getName());
@@ -54,8 +54,8 @@ public class ComputersViewHolder extends RecyclerView.ViewHolder {
             nameDis.setVisibility(View.GONE);
         }
 
-        if (comp.getCompany() != null) {
-            company.setText(comp.getCompany().getName());
+        if (comp.getCompanyName() != null){
+            company.setText(comp.getCompanyName());
             company.setVisibility(View.VISIBLE);
             companyDis.setVisibility(View.VISIBLE);
         } else {

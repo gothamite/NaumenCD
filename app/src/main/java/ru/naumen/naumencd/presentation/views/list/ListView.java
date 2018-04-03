@@ -1,6 +1,6 @@
 package ru.naumen.naumencd.presentation.views.list;
 
-import ru.naumen.naumencd.models.Computers;
+import ru.naumen.naumencd.models.dbdto.PageEntity;
 
 public interface ListView {
 
@@ -8,6 +8,6 @@ public interface ListView {
 
     void removeWait();
 
-    void setComputers(Computers computers);
+    void setComputers(PageEntity computers);
 
 }

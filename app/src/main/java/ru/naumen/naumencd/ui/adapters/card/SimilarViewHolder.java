@@ -9,9 +9,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.naumen.naumencd.AdapterClickListener;
 import ru.naumen.naumencd.R;
-import ru.naumen.naumencd.models.Item;
-import ru.naumen.naumencd.models.SimilarItem;
-import ru.naumen.naumencd.models.SimilarItemEntity;
+import ru.naumen.naumencd.models.dbdto.interfaces.SimilarItemEntity;
 
 public class SimilarViewHolder extends RecyclerView.ViewHolder {
 
@@ -29,7 +27,7 @@ public class SimilarViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void initListSimilar(SimilarItem item) {
+    public void initListSimilar(SimilarItemEntity item) {
         if (item.getName() != null) {
             name.setText(item.getName());
         }
