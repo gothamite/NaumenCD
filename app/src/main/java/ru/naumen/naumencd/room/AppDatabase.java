@@ -3,12 +3,13 @@ package ru.naumen.naumencd.room;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
-import ru.naumen.naumencd.models.Item;
-import ru.naumen.naumencd.models.Page;
-import ru.naumen.naumencd.models.PageItem;
-import ru.naumen.naumencd.models.SimilarItem;
+import ru.naumen.naumencd.models.dbdto.CompanyDbDto;
+import ru.naumen.naumencd.models.dbdto.ItemDbDto;
+import ru.naumen.naumencd.models.dbdto.PageDbDto;
+import ru.naumen.naumencd.models.dbdto.PageItemDbDto;
+import ru.naumen.naumencd.models.dbdto.SimilarItemDbDto;
 
-@Database(entities = {Item.class, SimilarItem.class, Page.class, PageItem.class}, version = 2, exportSchema = false)
+@Database(entities = {ItemDbDto.class, SimilarItemDbDto.class, PageDbDto.class, PageItemDbDto.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ItemDao itemDao();

@@ -1,6 +1,8 @@
 package ru.naumen.naumencd.presentation.presenters.list;
 
 
+import android.util.Log;
+
 import java.util.Optional;
 
 import io.reactivex.Observable;
@@ -29,12 +31,13 @@ public class ListPresenter extends BasePresenter {
 
         Timber.d("LoadComps" + page);
 
-        Observable<Computers> observable = listRepository.getComputers(page);
         sharedPrefsPage.putComputers(page);
-        Disposable disposable = observable
+
+        Disposable disposable = listRepository.getComputers(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(comps -> optionalView.ifPresent(v -> v.setComputers(comps)),throwable -> {});
+                .subscribe(comps -> optionalView.ifPresent(v -> v.setComputers(comps)),throwable ->
+                        Log.e("loadPage", throwable.getMessage(), throwable));
         unsubscribeOnDestroy(disposable);
     }
 

@@ -12,7 +12,7 @@ import java.util.TimeZone;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import ru.naumen.naumencd.models.ItemEntity;
+import ru.naumen.naumencd.models.dbdto.interfaces.ItemEntity;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.repositories.CardRepository;

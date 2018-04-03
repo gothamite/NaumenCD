@@ -10,8 +10,7 @@ import java.util.List;
 
 import ru.naumen.naumencd.AdapterClickListener;
 import ru.naumen.naumencd.R;
-import ru.naumen.naumencd.models.SimilarItem;
-import ru.naumen.naumencd.models.SimilarItemEntity;
+import ru.naumen.naumencd.models.dbdto.interfaces.SimilarItemEntity;
 import ru.naumen.naumencd.utils.Navigator;
 
 public class ComputersSimilarAdapter extends RecyclerView.Adapter<SimilarViewHolder>

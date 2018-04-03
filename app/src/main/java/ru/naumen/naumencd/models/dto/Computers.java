@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import ru.naumen.naumencd.models.Item;
 
 public class Computers {
 

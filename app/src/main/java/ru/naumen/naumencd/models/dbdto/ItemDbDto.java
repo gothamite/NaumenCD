@@ -1,55 +1,64 @@
-package ru.naumen.naumencd.models;
+package ru.naumen.naumencd.models.dbdto;
 
 
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import ru.naumen.naumencd.models.dbdto.interfaces.ItemEntity;
+import ru.naumen.naumencd.models.dbdto.interfaces.PageItemEntity;
 import ru.naumen.naumencd.models.dto.Company;
 
 @Entity
-public class Item implements ItemEntity{
+public class ItemDbDto implements ItemEntity, PageItemEntity {
 
     @SerializedName("id")
     @PrimaryKey
     private Integer id;
 
     @SerializedName("name")
-    @Expose
     private String name;
 
+    @SerializedName("pageId")
+    private Integer pageId;
+
     @SerializedName("introduced")
-    @Expose
     private String introduced;
 
     @SerializedName("discounted")
-    @Expose
     private String discounted;
 
     @SerializedName("imageUrl")
-    @Expose
     private String imageUrl;
 
     @SerializedName("company")
-    @Expose
     @Embedded(prefix = "Company")
-    private Company company;
+    private CompanyDbDto company;
 
     @SerializedName("description")
-    @Expose
     private String description;
+
 
     @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public Integer getPageId() {
+        return pageId;
+    }
+
+    public void setPageId(Integer pageId) {
+        this.pageId = pageId;
     }
 
     @Override
@@ -57,7 +66,6 @@ public class Item implements ItemEntity{
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -67,7 +75,6 @@ public class Item implements ItemEntity{
         return introduced;
     }
 
-    @Override
     public void setIntroduced(String introduced) {
         this.introduced = introduced;
     }
@@ -77,7 +84,6 @@ public class Item implements ItemEntity{
         return discounted;
     }
 
-    @Override
     public void setDiscounted(String discounted) {
         this.discounted = discounted;
     }
@@ -87,19 +93,25 @@ public class Item implements ItemEntity{
         return imageUrl;
     }
 
-    @Override
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
     @Override
-    public Company getCompany() {
+    public CompanyDbDto getCompany() {
         return company;
     }
 
-    @Override
-    public void setCompany(Company company) {
+    public void setCompany(CompanyDbDto company) {
         this.company = company;
+    }
+
+    @Override
+    public String getCompanyName() {
+        if (company != null){
+            return company.getName();
+        }
+        return "";
     }
 
     @Override
@@ -107,7 +119,6 @@ public class Item implements ItemEntity{
         return description;
     }
 
-    @Override
     public void setDescription(String description) {
         this.description = description;
     }

@@ -3,26 +3,26 @@ package ru.naumen.naumencd.room;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import ru.naumen.naumencd.models.SimilarItem;
-import ru.naumen.naumencd.models.SimilarItemEntity;
+import ru.naumen.naumencd.models.dbdto.SimilarItemDbDto;
 
 @Dao
 public interface SimilarItemDao {
 
-    @Query("SELECT * FROM SimilarItem WHERE itemId = :itemId")
-    List<SimilarItem> getSimilarListById(Integer itemId);
+    @Query("SELECT * FROM SimilarItemDbDto WHERE itemId = :itemId")
+    List<SimilarItemDbDto> getSimilarListById(Integer itemId);
 
     @Insert
-    void insert(SimilarItem similarItem);
+    void insert(SimilarItemDbDto similarItemDbDto);
 
     @Update
-    void update(SimilarItem similarItem);
+    void update(SimilarItemDbDto similarItemDbDto);
 
     @Delete
-    void delete(SimilarItem similarItem);
+    void delete(SimilarItemDbDto similarItemDbDto);
 }

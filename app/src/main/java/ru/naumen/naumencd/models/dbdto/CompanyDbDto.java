@@ -1,4 +1,4 @@
-package ru.naumen.naumencd.models;
+package ru.naumen.naumencd.models.dbdto;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
@@ -6,46 +6,31 @@ import android.arch.persistence.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Entity
-public class PageItem implements PageItemEntity {
+import ru.naumen.naumencd.models.dbdto.interfaces.CompanyEntity;
 
-    @SerializedName("pageId")
-    private Integer pageId;
+public class CompanyDbDto implements CompanyEntity {
 
-    @PrimaryKey
     @SerializedName("id")
+    @Expose
     private Integer id;
 
     @SerializedName("name")
+    @Expose
     private String name;
 
-    @Override
     public Integer getId() {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public Integer getPageId() {
-        return pageId;
-    }
-
-    @Override
-    public void setPageId(Integer pageId) {
-        this.pageId = pageId;
     }
 }

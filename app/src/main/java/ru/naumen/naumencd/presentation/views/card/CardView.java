@@ -2,7 +2,7 @@ package ru.naumen.naumencd.presentation.views.card;
 
 import java.util.List;
 
-import ru.naumen.naumencd.models.SimilarItemEntity;
+import ru.naumen.naumencd.models.dbdto.interfaces.SimilarItemEntity;
 
 public interface CardView {
 

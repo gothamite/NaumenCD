@@ -5,8 +5,9 @@ import java.util.List;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import ru.naumen.naumencd.models.Item;
-import ru.naumen.naumencd.models.SimilarItem;
+import ru.naumen.naumencd.models.dto.Item;
+import ru.naumen.naumencd.models.dto.SimilarItem;
+
 
 public interface CardApi {
 

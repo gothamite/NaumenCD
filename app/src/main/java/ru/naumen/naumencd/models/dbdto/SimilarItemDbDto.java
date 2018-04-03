@@ -1,23 +1,25 @@
-package ru.naumen.naumencd.models;
+package ru.naumen.naumencd.models.dbdto;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+import ru.naumen.naumencd.models.dbdto.interfaces.SimilarItemEntity;
 
-@Entity
-public class SimilarItem implements SimilarItemEntity {
+
+@Entity(primaryKeys = {"id", "itemId"})
+public class SimilarItemDbDto implements SimilarItemEntity {
 
     @SerializedName("id")
-    @PrimaryKey
+    @NonNull
     private Integer id;
 
     @SerializedName("name")
     private String name;
 
     @SerializedName("itemId")
+    @NonNull
     private Integer itemId;
 
     @Override
@@ -25,7 +27,6 @@ public class SimilarItem implements SimilarItemEntity {
         return itemId;
     }
 
-    @Override
     public void setItemId(Integer itemId) {
         this.itemId = itemId;
     }
@@ -35,7 +36,6 @@ public class SimilarItem implements SimilarItemEntity {
         return id;
     }
 
-    @Override
     public void setId(Integer id) {
         this.id = id;
     }
@@ -45,7 +45,6 @@ public class SimilarItem implements SimilarItemEntity {
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
