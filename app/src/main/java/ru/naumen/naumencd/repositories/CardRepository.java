@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import ru.naumen.naumencd.app.CardApi;
 import ru.naumen.naumencd.models.dbdto.CompanyDbDto;
@@ -14,6 +13,7 @@ import ru.naumen.naumencd.models.dbdto.interfaces.ItemEntity;
 import ru.naumen.naumencd.models.dto.Item;
 import ru.naumen.naumencd.models.dto.SimilarItem;
 import ru.naumen.naumencd.room.AppDatabase;
+import ru.naumen.naumencd.utils.Timer;
 
 public class CardRepository {
 
@@ -21,20 +21,28 @@ public class CardRepository {
 
     private CardApi cardApi;
 
-    public CardRepository(CardApi cardApi, AppDatabase appDatabase) {
+    private Timer timer;
+
+    public CardRepository(CardApi cardApi, AppDatabase appDatabase, Timer timer) {
         this.cardApi = cardApi;
         this.appDatabase = appDatabase;
+        this.timer = timer;
     }
 
     public Observable<? extends ItemEntity> getComputer(int id) {
         Observable<ItemDbDto> itemObservable = cardApi.getComputer(id)
                 .map(this::transformFromApi)
-                .doOnNext(item -> appDatabase.itemDao().insert(item));
+                .doOnNext(item -> appDatabase.itemDao().insert(item))
+                .doOnNext(itemDbDto -> timer.updateTime(String.valueOf(itemDbDto.getId())));
 
         return Observable.fromCallable(() -> {
             ItemDbDto comp = appDatabase.itemDao().getId(id);
+
             if (comp != null) {
-                return comp;
+
+                if (timer.isTimeValid(String.valueOf(comp.getId()))) {
+                    return comp;
+                }
             }
             throw new IllegalStateException("Comp not found");
         }).onErrorResumeNext(itemObservable);
@@ -82,7 +90,10 @@ public class CardRepository {
         return Observable.fromCallable(() -> {
             List<SimilarItemDbDto> similarList = appDatabase.similarItemDao().getSimilarListById(id);
             if (similarList.size() != 0) {
-                return similarList;
+
+                if (timer.isTimeValid(String.valueOf(id))) {
+                    return similarList;
+                }
             }
             throw new IllegalStateException("SimilarList not found");
         }).onErrorResumeNext(listObservable);
