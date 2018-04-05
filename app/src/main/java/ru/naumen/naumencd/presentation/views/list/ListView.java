@@ -10,4 +10,5 @@ public interface ListView {
 
     void setComputers(PageEntity computers);
 
+    void showSnackbar(String message);
 }

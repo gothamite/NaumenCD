@@ -10,6 +10,8 @@ public interface CardView {
 
     void removeWait();
 
+    void showSnackbar(String message);
+
     void setComputersSimilar(List<? extends SimilarItemEntity> computersSimilar);
 
     void setActionBar(String name);

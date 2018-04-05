@@ -29,13 +29,14 @@ public class CardRepository {
         this.timer = timer;
     }
 
-    public Observable<? extends ItemEntity> getComputer(int id) {
-        Observable<ItemDbDto> itemObservable = cardApi.getComputer(id)
+    public Observable<ItemEntity> getComputer(int id) {
+        Observable<ItemEntity> itemObservable = cardApi.getComputer(id)
                 .map(this::transformFromApi)
                 .doOnNext(item -> appDatabase.itemDao().insert(item))
-                .doOnNext(itemDbDto -> timer.updateTime(String.valueOf(itemDbDto.getId())));
+                .doOnNext(itemDbDto -> timer.updateTime(String.valueOf(itemDbDto.getId())))
+                .map(itemDbDto -> itemDbDto);
 
-        return Observable.fromCallable(() -> {
+        return Observable.<ItemEntity>fromCallable(() -> {
             ItemDbDto comp = appDatabase.itemDao().getId(id);
 
             if (comp != null) {
@@ -45,7 +46,8 @@ public class CardRepository {
                 }
             }
             throw new IllegalStateException("Comp not found");
-        }).onErrorResumeNext(itemObservable);
+        })
+                .onErrorResumeNext(itemObservable);
     }
 
     private ItemDbDto transformFromApi(Item item) {

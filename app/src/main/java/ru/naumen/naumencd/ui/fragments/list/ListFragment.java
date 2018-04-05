@@ -3,6 +3,7 @@ package ru.naumen.naumencd.ui.fragments.list;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,6 +52,9 @@ public class ListFragment extends Fragment implements ListView {
     @BindView(R.id.pages)
     TextView pages;
 
+    @BindView(R.id.container)
+    View container;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -90,6 +94,13 @@ public class ListFragment extends Fragment implements ListView {
         pageAll = listPresenter.calculatePages(computers.getTotal());
         pages.setText((pageNumber + 1) + " of " + pageAll);
         removeWait();
+    }
+
+    @Override
+    public void showSnackbar(String message) {
+        Snackbar.make(container, message, Snackbar.LENGTH_INDEFINITE)
+                .setAction("Retry", view ->
+                        listPresenter.loadCompsFromSharedPrefs()).show();
     }
 
     @OnClick(R.id.previous)
