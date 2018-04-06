@@ -16,7 +16,7 @@ import ru.naumen.naumencd.utils.Navigator;
 public class ComputersSimilarAdapter extends RecyclerView.Adapter<SimilarViewHolder>
         implements AdapterClickListener {
 
-    private List<? extends SimilarItemEntity> computers = Collections.emptyList();
+    private List<SimilarItemEntity> computers = Collections.emptyList();
     private Navigator navigator;
 
     public ComputersSimilarAdapter(Navigator navigator) {
@@ -39,7 +39,7 @@ public class ComputersSimilarAdapter extends RecyclerView.Adapter<SimilarViewHol
         holder.initListSimilar(computers.get(position));
     }
 
-    public void setComputersList(List<? extends SimilarItemEntity> computersList) {
+    public void setComputersList(List<SimilarItemEntity> computersList) {
         computers = computersList;
         notifyDataSetChanged();
     }

@@ -1,8 +1,5 @@
 package ru.naumen.naumencd.models.dbdto;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

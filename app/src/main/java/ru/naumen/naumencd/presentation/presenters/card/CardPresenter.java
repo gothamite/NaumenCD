@@ -1,30 +1,29 @@
 package ru.naumen.naumencd.presentation.presenters.card;
 
 
-import android.util.Log;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 import java.util.TimeZone;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import ru.naumen.naumencd.models.dbdto.interfaces.ItemEntity;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.repositories.CardRepository;
+import ru.naumen.naumencd.utils.SchedulerProvider;
 import timber.log.Timber;
 
 public class CardPresenter extends BasePresenter {
 
     private Optional<CardView> optionalView = Optional.empty();
     private CardRepository cardRepository;
+    private SchedulerProvider schedulerProvider;
 
-    public CardPresenter(CardView cardView, CardRepository cardRepository) {
+    public CardPresenter(CardView cardView, CardRepository cardRepository, SchedulerProvider schedulerProvider) {
         this.cardRepository = cardRepository;
+        this.schedulerProvider = schedulerProvider;
         optionalView = Optional.of(cardView);
     }
 
@@ -32,10 +31,14 @@ public class CardPresenter extends BasePresenter {
         Timber.d("************************LoadComp" + id);
 
         Disposable disposable = cardRepository.getComputer(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(item -> optionalView.ifPresent(cardView -> setComputer(item, cardView)),throwable ->
-                        Log.e("loadComputer", throwable.getMessage(), throwable));
+                .subscribeOn(schedulerProvider.schedulersIo())
+                .observeOn(schedulerProvider.androidMainThread())
+                .subscribe(item -> optionalView.ifPresent(cardView -> setComputer(item, cardView)),
+                        throwable -> {
+                            optionalView.ifPresent(cardView -> cardView.showSnackbar(throwable.getMessage()));
+                            Timber.e("loadComputer", throwable.getMessage(), throwable);
+                        });
+
         unsubscribeOnDestroy(disposable);
     }
 
@@ -43,10 +46,14 @@ public class CardPresenter extends BasePresenter {
         Timber.d("************************Load SIMILAR Comps" + id);
 
         Disposable disposable = cardRepository.getComputersSimilar(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(similar -> optionalView.ifPresent(v -> v.setComputersSimilar(similar)),throwable ->
-                        Log.e("loadSimilarComp", throwable.getMessage(), throwable));
+                .subscribeOn(schedulerProvider.schedulersIo())
+                .observeOn(schedulerProvider.androidMainThread())
+                .subscribe(similar -> optionalView.ifPresent(cardView -> cardView.setComputersSimilar(similar)),
+                        throwable -> {
+                            optionalView.ifPresent(cardView -> cardView.showSnackbar(throwable.getMessage()));
+                            Timber.e("loadSimilarComp", throwable.getMessage(), throwable);
+                        });
+
         unsubscribeOnDestroy(disposable);
     }
 
@@ -71,7 +78,7 @@ public class CardPresenter extends BasePresenter {
             try {
                 date = responseDate.parse(computer.getIntroduced());
             } catch (ParseException e) {
-                e.printStackTrace();
+                cardView.showSnackbar(e.getMessage());
             }
             finalDate = formattedDate.format(date);
             cardView.setIntroduced(finalDate);
@@ -81,7 +88,7 @@ public class CardPresenter extends BasePresenter {
             try {
                 date = responseDate.parse(computer.getDiscounted());
             } catch (ParseException e) {
-                e.printStackTrace();
+                cardView.showSnackbar(e.getMessage());
             }
             finalDate = formattedDate.format(date);
             cardView.setDiscounted(finalDate);

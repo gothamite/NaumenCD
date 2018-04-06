@@ -2,6 +2,7 @@ package ru.naumen.naumencd.ui.fragments.card;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -77,6 +78,9 @@ public class CardFragment extends Fragment implements CardView {
     @BindView(R.id.company_dis)
     TextView companyDis;
 
+    @BindView(R.id.container)
+    View container;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -107,7 +111,16 @@ public class CardFragment extends Fragment implements CardView {
     }
 
     @Override
-    public void setComputersSimilar(List<? extends SimilarItemEntity> computersSimilar) {
+    public void showSnackbar(String message) {
+        Snackbar.make(container, message, Snackbar.LENGTH_INDEFINITE)
+                .setAction("Retry", view -> {
+                    cardPresenter.loadComputer(selectedComp.getInt("SELECTED_COMPUTER_ID"));
+                    cardPresenter.loadSimilarComputers(selectedComp.getInt("SELECTED_COMPUTER_ID"));
+                }).show();
+    }
+
+    @Override
+    public void setComputersSimilar(List<SimilarItemEntity> computersSimilar) {
         adapter.setComputersList(computersSimilar);
         lookingFor.setVisibility(View.VISIBLE);
     }
