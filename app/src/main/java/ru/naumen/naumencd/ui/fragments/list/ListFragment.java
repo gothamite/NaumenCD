@@ -113,7 +113,7 @@ public class ListFragment extends Fragment implements ListView {
 
     @OnClick(R.id.next)
     public void onNextClick() {
-        if (pageNumber != pageAll) {
+        if (pageNumber != pageAll - 1) {
             showWait();
             listPresenter.loadComputers(pageNumber + 1);
         }
