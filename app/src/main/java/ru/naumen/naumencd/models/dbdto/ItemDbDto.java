@@ -4,14 +4,11 @@ package ru.naumen.naumencd.models.dbdto;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import ru.naumen.naumencd.models.dbdto.interfaces.ItemEntity;
 import ru.naumen.naumencd.models.dbdto.interfaces.PageItemEntity;
-import ru.naumen.naumencd.models.dto.Company;
 
 @Entity
 public class ItemDbDto implements ItemEntity, PageItemEntity {

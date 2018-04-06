@@ -48,9 +48,12 @@ public class CardPresenter extends BasePresenter {
         Disposable disposable = cardRepository.getComputersSimilar(id)
                 .subscribeOn(schedulerProvider.schedulersIo())
                 .observeOn(schedulerProvider.androidMainThread())
-                .subscribe(similar -> optionalView.ifPresent(v -> v.setComputersSimilar(similar)), throwable ->
-                        optionalView.ifPresent(cardView -> cardView.showSnackbar(throwable.getMessage())));
-        //Timber.e("loadSimilarComp", throwable.getMessage(), throwable));
+                .subscribe(similar -> optionalView.ifPresent(cardView -> cardView.setComputersSimilar(similar)),
+                        throwable -> {
+                            optionalView.ifPresent(cardView -> cardView.showSnackbar(throwable.getMessage()));
+                            Timber.e("loadSimilarComp", throwable.getMessage(), throwable);
+                        });
+
         unsubscribeOnDestroy(disposable);
     }
 

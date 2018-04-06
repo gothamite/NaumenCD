@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class TimerImpl implements Timer {
 
-    public static final int TIME = 30000;
+    private static final int TIME = 30000;
     private Map<String, Long> hashMap = new HashMap<>();
 
 

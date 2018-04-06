@@ -1,32 +1,34 @@
 package ru.naumen.naumencd.repositories;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
 import ru.naumen.naumencd.app.CardApi;
 import ru.naumen.naumencd.models.dbdto.CompanyDbDto;
 import ru.naumen.naumencd.models.dbdto.ItemDbDto;
 import ru.naumen.naumencd.models.dbdto.SimilarItemDbDto;
 import ru.naumen.naumencd.models.dbdto.interfaces.ItemEntity;
+import ru.naumen.naumencd.models.dbdto.interfaces.SimilarItemEntity;
 import ru.naumen.naumencd.models.dto.Item;
 import ru.naumen.naumencd.models.dto.SimilarItem;
 import ru.naumen.naumencd.room.AppDatabase;
+import ru.naumen.naumencd.utils.SchedulerProvider;
 import ru.naumen.naumencd.utils.Timer;
 
 public class CardRepository {
 
     private AppDatabase appDatabase;
-
     private CardApi cardApi;
-
     private Timer timer;
+    private SchedulerProvider schedulerProvider;
 
-    public CardRepository(CardApi cardApi, AppDatabase appDatabase, Timer timer) {
+    public CardRepository(CardApi cardApi, AppDatabase appDatabase, Timer timer, SchedulerProvider schedulerProvider) {
         this.cardApi = cardApi;
         this.appDatabase = appDatabase;
         this.timer = timer;
+        this.schedulerProvider = schedulerProvider;
     }
 
     public Observable<ItemEntity> getComputer(int id) {
@@ -46,8 +48,7 @@ public class CardRepository {
                 }
             }
             throw new IllegalStateException("Comp not found");
-        })
-                .onErrorResumeNext(itemObservable);
+        }).onErrorResumeNext(itemObservable);
     }
 
     private ItemDbDto transformFromApi(Item item) {
@@ -74,27 +75,26 @@ public class CardRepository {
             companyDbDto.setId(item.getCompany().getId());
             itemDbDto.setCompany(companyDbDto);
         }
-
         return itemDbDto;
     }
 
-    public Observable<List<SimilarItemDbDto>> getComputersSimilar(int id) { //TODO не получилось с <? extends Interface>
-        Observable<List<SimilarItemDbDto>> listObservable = cardApi.getComputersSimilar(id)
-                .subscribeOn(Schedulers.io())
+    public Observable<List<SimilarItemEntity>> getComputersSimilar(int id) { //TODO получилось только через каст
+        Observable<List<SimilarItemEntity>> listObservable = cardApi.getComputersSimilar(id)
+                .subscribeOn(schedulerProvider.schedulersIo())
                 .map(this::transformSimilarFromApi)
-                .doOnNext(similarItemList -> {
-                    for (SimilarItemDbDto similarItemDbDto : similarItemList) {
-                        similarItemDbDto.setItemId(id);
-                        appDatabase.similarItemDao().insert(similarItemDbDto);
-                    }
-                });
+                .doOnNext(similarItemDbDtos -> {
+                    for (SimilarItemDbDto similarItemEntity : similarItemDbDtos) {
+                        similarItemEntity.setItemId(id);
+                        appDatabase.similarItemDao().insert(similarItemEntity);
 
-        return Observable.fromCallable(() -> {
+                    }
+                }).map(Collections::unmodifiableList);
+
+        return Observable.<List<SimilarItemEntity>>fromCallable(() -> {
             List<SimilarItemDbDto> similarList = appDatabase.similarItemDao().getSimilarListById(id);
             if (similarList.size() != 0) {
-
                 if (timer.isTimeValid(String.valueOf(id))) {
-                    return similarList;
+                    return Collections.unmodifiableList(similarList);
                 }
             }
             throw new IllegalStateException("SimilarList not found");

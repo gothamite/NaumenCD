@@ -120,7 +120,7 @@ public class CardFragment extends Fragment implements CardView {
     }
 
     @Override
-    public void setComputersSimilar(List<? extends SimilarItemEntity> computersSimilar) {
+    public void setComputersSimilar(List<SimilarItemEntity> computersSimilar) {
         adapter.setComputersList(computersSimilar);
         lookingFor.setVisibility(View.VISIBLE);
     }

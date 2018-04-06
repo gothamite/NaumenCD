@@ -12,7 +12,7 @@ public interface CardView {
 
     void showSnackbar(String message);
 
-    void setComputersSimilar(List<? extends SimilarItemEntity> computersSimilar);
+    void setComputersSimilar(List<SimilarItemEntity> computersSimilar);
 
     void setActionBar(String name);
 

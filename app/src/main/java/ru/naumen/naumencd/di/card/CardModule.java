@@ -35,8 +35,8 @@ public class CardModule {
 
     @Provides
     @CardScope
-    public CardRepository provideCardRepository(CardApi cardApi, AppDatabase appDatabase, Timer hashMap) {
-        return new CardRepository(cardApi, appDatabase, hashMap);
+    public CardRepository provideCardRepository(CardApi cardApi, AppDatabase appDatabase, Timer hashMap, SchedulerProvider schedulerProvider) {
+        return new CardRepository(cardApi, appDatabase, hashMap, schedulerProvider);
     }
 
     @Provides
