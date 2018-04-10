@@ -2,26 +2,26 @@ package ru.naumen.naumencd.app;
 
 import android.app.Application;
 
-import ru.naumen.naumencd.di.AppComponent;
 import ru.naumen.naumencd.di.DaggerAppComponent;
+import ru.naumen.naumencd.di.Injector;
 import ru.naumen.naumencd.di.module.ContextModule;
 import timber.log.Timber;
 
 public class ComputerDatabaseApp extends Application {
-
-    private static AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         Timber.plant(new Timber.DebugTree());
 
-        appComponent = DaggerAppComponent.builder()
-                .contextModule(new ContextModule(this))
-                .build();
+        initializeInjector();
     }
 
-    public static AppComponent getAppComponent() {
-        return appComponent;
+    protected void initializeInjector() {
+        Injector injector = new Injector();
+        injector.setAppComponent(DaggerAppComponent.builder()
+                .contextModule(new ContextModule(this))
+                .build());
+        Injector.setInjector(injector);
     }
 }

@@ -1,6 +1,5 @@
 package ru.naumen.naumencd.models.dbdto;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

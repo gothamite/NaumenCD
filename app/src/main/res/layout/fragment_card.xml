@@ -97,7 +97,7 @@
                 android:visibility="gone" />
 
             <ImageView
-                android:id="@+id/image"
+                android:id="@+id/image_comp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/description_dis"
@@ -108,7 +108,7 @@
                 android:id="@+id/line_1dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@id/image"
+                android:layout_below="@id/image_comp"
                 android:color="@color/add"
                 android:paddingTop="8dp" />
 

@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.app.ActionBar;
+import android.widget.TextView;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,28 +31,30 @@ import ru.naumen.naumencd.util.ItemEntityFactory;
 import ru.naumen.naumencd.util.PageItemEntityFactory;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
+import static ru.naumen.naumencd.util.ClickableSpan.clickClickableSpan;
 
 @RunWith(AndroidJUnit4.class)
-public class ListTest {
-    private int pageNumber;
-    private PageEntity pageEntity;
+public class CardTest {
+    private ActionBar actionBar;
     private ItemEntity itemEntity;
+    private PageEntity pageEntity;
     private List<SimilarItemEntity> list;
 
     @Inject
-    ListRepository listRepositoryMock;
+    CardRepository cardRepositoryMock;
 
     @Inject
-    CardRepository cardRepositoryMock;
+    ListRepository listRepositoryMock;
 
     @Rule
     public ActivityTestRule<HomeActivity> activityActivityTestRule = new ActivityTestRule<>(HomeActivity.class, false, false);
@@ -62,60 +67,48 @@ public class ListTest {
         appComponentMock.inject(this);
 
         list = ItemEntityFactory.createList(5);
-        pageNumber = 0;
+        itemEntity = ItemEntityFactory.createItemEntity();
+        int pageNumber = 0;
         pageEntity = new PageEntity();
         pageEntity.setItems(PageItemEntityFactory.createList(10));
-        itemEntity = ItemEntityFactory.createItemEntity();
         pageEntity.setTotal(580);
         pageEntity.setPage(pageNumber);
+
     }
 
     @Test
-    public void onNextClick() throws Exception {
+    public void onItemClick() {
         launchActivity();
 
-        int page = pageNumber + 1;
-        onView(withId(R.id.pages)).check(matches(withText(String.valueOf(page) + " of 58")));
-        pageEntity.setPage(pageNumber + 1);
-        onView(withId(R.id.next))
-                .check(matches(isDisplayed()))
-                .perform(click());
-
-        onView(withId(R.id.pages)).check(matches(withText(String.valueOf(page + 1) + " of 58")));
-    }
-
-    @Test
-    public void onPreviousClick() throws Exception {
-        pageEntity.setPage(pageNumber + 1);
-        launchActivity();
-
-        int page = pageNumber + 2;
-        onView(withId(R.id.pages)).check(matches(withText(String.valueOf(page) + " of 58")));
-        pageEntity.setPage(pageNumber);
-        onView(withId(R.id.previous))
-                .check(matches(isDisplayed()))
-                .perform(click());
-
-        onView(withId(R.id.pages)).check(matches(withText(String.valueOf(page - 1) + " of 58")));
-    }
-
-    @Test
-    public void onItemClick() throws Exception {
-        launchActivity();
-
-        onView(withId(R.id.computers_list))
+        onView(withId(R.id.computers_similar))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        assertEquals(1, activityActivityTestRule.getActivity().getFragmentManager().getBackStackEntryCount());
+
+        assertEquals(String.valueOf(actionBar.getTitle()), itemEntity.getName());
     }
 
     @Test
-    public void compareItem() throws Exception {
+    public void onBackPressed() {
         launchActivity();
-        String computerName = pageEntity.getItems().get(0).getName();
-        String companyName = pageEntity.getItems().get(0).getCompanyName();
+        pressBack();
 
-        onView(withId(R.id.computers_list)).check(matches(hasDescendant(withText(computerName))));
-        onView(withId(R.id.computers_list)).check(matches(hasDescendant(withText(companyName))));
+        assertEquals(0, activityActivityTestRule.getActivity().getFragmentManager().getBackStackEntryCount());
+    }
+
+    @Test
+    public void compareFields() {
+        launchActivity();
+        onView(withId(R.id.company)).check(matches(isDisplayed())).check(matches(withText(itemEntity.getCompany().getName())));
+        onView(withId(R.id.introduced)).check(matches(isDisplayed())).check(matches(withText("16 Jan 1986")));
+        onView(withId(R.id.discontinued)).check(matches(withText("16 Jan 1986")));
+        assertEquals(String.valueOf(actionBar.getTitle()), itemEntity.getName());
+        onView(withId(R.id.image_comp)).check(matches(not(isDisplayed())));
+    }
+
+    @Test
+    public void checkMore() {
+        launchActivity();
+        onView(withId(R.id.description)).perform(clickClickableSpan("... More"));
+        onView(withId(R.id.description)).check(matches(withText(itemEntity.getDescription() + " ")));
     }
 
     private void launchActivity() {
@@ -123,5 +116,8 @@ public class ListTest {
         when(cardRepositoryMock.getComputer(anyInt())).thenReturn(Observable.just(itemEntity));
         when(cardRepositoryMock.getComputersSimilar(anyInt())).thenReturn(Observable.just(list));
         activityActivityTestRule.launchActivity(new Intent());
+        onView(withId(R.id.computers_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        actionBar = activityActivityTestRule.getActivity().getSupportActionBar();
     }
 }
