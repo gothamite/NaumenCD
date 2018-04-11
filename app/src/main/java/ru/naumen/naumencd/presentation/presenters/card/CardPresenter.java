@@ -12,6 +12,7 @@ import ru.naumen.naumencd.models.dbdto.interfaces.ItemEntity;
 import ru.naumen.naumencd.presentation.presenters.BasePresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.repositories.CardRepository;
+import ru.naumen.naumencd.repositories.CardRepositoryImpl;
 import ru.naumen.naumencd.utils.SchedulerProvider;
 import timber.log.Timber;
 

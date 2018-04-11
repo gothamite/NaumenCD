@@ -1,7 +1,6 @@
 package ru.naumen.naumencd.repositories;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -20,7 +19,6 @@ import ru.naumen.naumencd.models.dbdto.interfaces.ItemEntity;
 import ru.naumen.naumencd.models.dbdto.interfaces.SimilarItemEntity;
 import ru.naumen.naumencd.models.dto.Item;
 import ru.naumen.naumencd.models.dto.SimilarItem;
-import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.room.AppDatabase;
 import ru.naumen.naumencd.room.ItemDao;
 import ru.naumen.naumencd.room.SimilarItemDao;
@@ -36,7 +34,7 @@ import static org.mockito.Mockito.when;
 
 public class CardRepositoryTest {
     private VariableGenerator variableGenerator;
-    private CardRepository cardRepository;
+    private CardRepositoryImpl cardRepositoryImpl;
 
     @Mock
     private Timer timerMock;
@@ -60,7 +58,7 @@ public class CardRepositoryTest {
 
         TestSchedulerProvider testSchedulerProvider = new TestSchedulerProvider();
         variableGenerator = new VariableGenerator();
-        cardRepository = new CardRepository(cardApiMock, appDatabaseMock, timerMock, testSchedulerProvider);
+        cardRepositoryImpl = new CardRepositoryImpl(cardApiMock, appDatabaseMock, timerMock, testSchedulerProvider);
     }
 
     @Test
@@ -75,7 +73,7 @@ public class CardRepositoryTest {
         when(timerMock.isTimeValid(String.valueOf(compId))).thenReturn(true);
 
         // do
-        cardRepository.getComputer(id).subscribe();
+        cardRepositoryImpl.getComputer(id).subscribe();
 
         // assert
         verify(appDatabaseMock).itemDao();
@@ -94,7 +92,7 @@ public class CardRepositoryTest {
         when(itemDaoMock.getId(id)).thenThrow(exception);
 
         // do
-        cardRepository.getComputer(id).subscribe(testObserver);
+        cardRepositoryImpl.getComputer(id).subscribe(testObserver);
 
         // assert
         testObserver.onError(exception);
@@ -110,7 +108,7 @@ public class CardRepositoryTest {
         when(itemDaoMock.getId(id)).thenReturn(null);
 
         // do
-        cardRepository.getComputer(id).subscribe(testObserver);
+        cardRepositoryImpl.getComputer(id).subscribe(testObserver);
 
         // assert
         testObserver.assertSubscribed();
@@ -130,7 +128,7 @@ public class CardRepositoryTest {
         when(cardApiMock.getComputer(id)).thenReturn(Observable.error(exception));
 
         // do
-        cardRepository.getComputer(id).subscribe(testObserver);
+        cardRepositoryImpl.getComputer(id).subscribe(testObserver);
 
         // assert
         testObserver.onError(exception);
@@ -149,7 +147,7 @@ public class CardRepositoryTest {
         when(similarItemDaoMock.getSimilarListById(id)).thenReturn(Collections.EMPTY_LIST);
 
         // do
-        cardRepository.getComputersSimilar(id).subscribe();
+        cardRepositoryImpl.getComputersSimilar(id).subscribe();
 
         // assert
         verify(cardApiMock).getComputersSimilar(id);
@@ -166,7 +164,7 @@ public class CardRepositoryTest {
         when(cardApiMock.getComputersSimilar(id)).thenReturn(Observable.error(exception));
 
         // do
-        cardRepository.getComputersSimilar(id).subscribe(testObserver);
+        cardRepositoryImpl.getComputersSimilar(id).subscribe(testObserver);
 
         // assert
         testObserver.onError(exception);
@@ -188,7 +186,7 @@ public class CardRepositoryTest {
         when(timerMock.isTimeValid(String.valueOf(id))).thenReturn(true);
 
         // do
-        cardRepository.getComputersSimilar(id).subscribe();
+        cardRepositoryImpl.getComputersSimilar(id).subscribe();
 
         // assert
         verify(timerMock).isTimeValid(String.valueOf(id));
@@ -206,7 +204,7 @@ public class CardRepositoryTest {
         when(similarItemDaoMock.getSimilarListById(id)).thenThrow(exception);
 
         // do
-        cardRepository.getComputersSimilar(id).subscribe(testObserver);
+        cardRepositoryImpl.getComputersSimilar(id).subscribe(testObserver);
 
         // assert
         testObserver.onError(exception);

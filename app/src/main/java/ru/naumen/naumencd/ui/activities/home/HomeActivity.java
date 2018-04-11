@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import javax.inject.Inject;
 
 import ru.naumen.naumencd.R;
-import ru.naumen.naumencd.app.ComputerDatabaseApp;
+import ru.naumen.naumencd.di.Injector;
 import ru.naumen.naumencd.di.activity.ActivityComponent;
 import ru.naumen.naumencd.di.activity.ActivityModule;
 import ru.naumen.naumencd.utils.Navigator;
@@ -28,7 +28,8 @@ public class HomeActivity extends AppCompatActivity {
 
     public ActivityComponent addActivityComponent() {
         if (activityComponent == null) {
-            activityComponent = ComputerDatabaseApp.getAppComponent().addActivityComponent(new ActivityModule(getFragmentManager()));
+            Injector injector = Injector.getInjector();
+            activityComponent = injector.addActivityComponent(new ActivityModule(getFragmentManager()));
         }
         return activityComponent;
     }

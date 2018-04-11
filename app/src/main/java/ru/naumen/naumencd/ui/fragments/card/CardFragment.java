@@ -69,7 +69,7 @@ public class CardFragment extends Fragment implements CardView {
     @BindView(R.id.description_dis)
     TextView descriptionDis;
 
-    @BindView(R.id.image)
+    @BindView(R.id.image_comp)
     ImageView image;
 
     @BindView(R.id.company)

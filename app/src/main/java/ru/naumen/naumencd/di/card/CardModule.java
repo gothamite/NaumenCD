@@ -7,6 +7,7 @@ import ru.naumen.naumencd.app.CardApi;
 import ru.naumen.naumencd.presentation.presenters.card.CardPresenter;
 import ru.naumen.naumencd.presentation.views.card.CardView;
 import ru.naumen.naumencd.repositories.CardRepository;
+import ru.naumen.naumencd.repositories.CardRepositoryImpl;
 import ru.naumen.naumencd.room.AppDatabase;
 import ru.naumen.naumencd.ui.adapters.card.ComputersSimilarAdapter;
 import ru.naumen.naumencd.utils.SchedulerProvider;
@@ -31,17 +32,5 @@ public class CardModule {
     @CardScope
     ComputersSimilarAdapter provideSimilarAdapter(Navigator navigator) {
         return new ComputersSimilarAdapter(navigator);
-    }
-
-    @Provides
-    @CardScope
-    public CardRepository provideCardRepository(CardApi cardApi, AppDatabase appDatabase, Timer hashMap, SchedulerProvider schedulerProvider) {
-        return new CardRepository(cardApi, appDatabase, hashMap, schedulerProvider);
-    }
-
-    @Provides
-    @CardScope
-    public CardApi provideApi(Retrofit retrofit) {
-        return retrofit.create(CardApi.class);
     }
 }
