@@ -14,8 +14,8 @@ import ru.naumen.naumencd.utils.Timer;
 public class ListDataSourceModule {
     @Provides
     @ListScope
-    public ListRepository provideListRepository(ListApi listApi, AppDatabase appDatabase, Timer hashMap) {
-        return new ListRepositoryImpl(listApi, appDatabase, hashMap);
+    public ListRepository provideListRepository(ListApi listApi, AppDatabase appDatabase, Timer timer) {
+        return new ListRepositoryImpl(listApi, appDatabase, timer);
     }
 
     @Provides

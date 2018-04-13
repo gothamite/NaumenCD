@@ -15,8 +15,8 @@ public class CardDataSourceModule {
 
     @Provides
     @CardScope
-    public CardRepository provideCardRepository(CardApi cardApi, AppDatabase appDatabase, Timer hashMap, SchedulerProvider schedulerProvider) {
-        return new CardRepositoryImpl(cardApi, appDatabase, hashMap, schedulerProvider);
+    public CardRepository provideCardRepository(CardApi cardApi, AppDatabase appDatabase, Timer timer, SchedulerProvider schedulerProvider) {
+        return new CardRepositoryImpl(cardApi, appDatabase, timer, schedulerProvider);
     }
 
     @Provides
